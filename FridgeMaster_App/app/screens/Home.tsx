@@ -3,10 +3,13 @@ import {SafeAreaProvider, SafeAreaView} from "react-native-safe-area-context";
 import {Link} from "expo-router";
 import {ReactElement} from "react";
 import {useAuthStore} from "@/app/stores/useAuthStore";
+import {useRouter} from "expo-router";
 
 
 export default function Index():ReactElement {
+    const router = useRouter();
     const isLoggedIn:boolean = useAuthStore(state => state.isLoggedIn);
+    if(isLoggedIn) router.replace('/screens/Dashboard')
     const logout = useAuthStore(state => state.logout);
     const username:string = useAuthStore(state => state.username);
 
