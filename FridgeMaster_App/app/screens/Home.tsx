@@ -6,10 +6,10 @@ import {useAuthStore} from "@/app/stores/useAuthStore";
 import {useRouter} from "expo-router";
 
 
-export default function Index():ReactElement {
+export default function Home():ReactElement {
     const router = useRouter();
     const isLoggedIn:boolean = useAuthStore(state => state.isLoggedIn);
-    if(isLoggedIn) router.replace('/screens/Dashboard')
+    if(isLoggedIn) router.navigate('/screens/Dashboard')
     const logout = useAuthStore(state => state.logout);
     const username:string = useAuthStore(state => state.username);
 

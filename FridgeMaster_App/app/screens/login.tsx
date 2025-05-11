@@ -1,15 +1,23 @@
 import {View, Text, TextInput, Button, Alert} from 'react-native'
-import {RefObject,useRef , useState} from 'react'
+import {NativeStackNavigationProp} from "@react-navigation/native-stack";
+import {RefObject,useRef , useState, useEffect} from 'react'
+import {useNavigation} from "@react-navigation/native";
 import {SafeAreaProvider, SafeAreaView} from "react-native-safe-area-context";
 import {Router, useRouter} from 'expo-router';
 import {useAuthStore} from "@/app/stores/useAuthStore";
 import * as Burnt from "burnt"
+import {RootStackParams} from "@/app/navigation/AppNavigator";
+
+type NavigationProp = NativeStackNavigationProp<RootStackParams>
 
 export default function Login() {
     const router:Router = useRouter();
+    const navigation = useNavigation<NavigationProp>();
     const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
-    if(isLoggedIn) router.replace("/screens/Home")
-
+    // if(isLoggedIn) router.replace("/screens/Home")
+    useEffect(()=>{
+        if(isLoggedIn) navigation.navigate("Dashboard")
+    },[isLoggedIn])
     const login = useAuthStore((state) => state.login);
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
@@ -36,14 +44,27 @@ export default function Login() {
                  throw new Error(`An error occured: ${res.status}`);
              }
              if(res.status === 200){
-                 console.log("Login successfull");
-                 login(username);
+
+                 const resData = await res.json()
+                 console.log(resData);
+                 login(resData.data.username, resData.data.email ,resData.data.id, resData.data.userInfo);
                  Burnt.toast({
                      title: "Login successfull",
                      preset:"done",
                      from: "top"
                  })
-                 router.replace('/screens/Dashboard')
+                 if(resData.data.userInfo.isFirstLog){
+                     router.navigate("/screens/Onboarding")
+                 }else{
+                     router.navigate("/screens/Dashboard")
+                 }
+
+             }else{
+                 Burnt.toast({
+                     title: "Wrong Credentials",
+                     preset:"error",
+                     from: "top"
+                 })
              }
 
          }catch (err){

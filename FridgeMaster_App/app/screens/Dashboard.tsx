@@ -5,7 +5,11 @@ import AppTabs from '@/app/navigation/AppTabs';
 
 
 export default function Dashboard() {
+
     return (
-        <AppTabs />
+
+            <AppTabs />
+
+
     )
 }
