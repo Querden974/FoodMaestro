@@ -50,9 +50,28 @@ namespace FridgeMaster_API.Controllers
             if(resultPassword == PasswordVerificationResult.Success)
             {
                 Console.WriteLine("Logged");
-                return Ok("Loggin Successful");
+                var userInfoData = _db.UserInfos.First(ui => ui.UserId == userInDb.id);
+                return Ok(new
+                {
+                    message = "Loggin Successful",
+                    data = new {
+                        id = userInDb.id,
+                        username = userInDb.username, 
+                        email = userInDb.email,
+                        userInfo = new {
+                            firstname = userInfoData.FirstName,
+                            lastname = userInfoData.LastName,
+                            birthday = userInfoData.Birthday,
+                            isFirstLog = userInfoData.IsFirstLoggin
+                        } }
+                });
             }
-            return Problem("Credentials incorrect");
+            else
+            {
+
+                return Problem("Credentials incorrect");
+            }
+                
         }
     }
 }

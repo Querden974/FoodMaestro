@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 
 using FridgeMaster_API.Data;
+using Microsoft.AspNetCore.Authentication;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,10 +20,13 @@ builder.Services.AddCors(op =>
 
 
 
+
 // Add services to the container.
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseMySql(builder.Configuration.GetConnectionString("FoodMaestro"),
         new MySqlServerVersion(new Version(5, 7, 24))));
+
+
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

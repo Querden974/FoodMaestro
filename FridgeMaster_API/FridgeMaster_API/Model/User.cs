@@ -12,6 +12,7 @@ namespace FridgeMaster_API.Model
 
         required public string email { get; set; }
 
+        public UserInfo? UserInfo { get; set; }
 
     }
 }

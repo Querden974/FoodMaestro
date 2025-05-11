@@ -63,7 +63,21 @@ namespace FridgeMaster_API.Controllers
             user.password = hasher.HashPassword(user, requestData.password);
 
             _db.Users.Add(user);
+
+            
             _db.SaveChanges();
+
+            var userInfo = new UserInfo
+            {
+                UserId = user.id,
+                FirstName = "",
+                LastName= "",
+                Birthday= null
+                
+            };
+            _db.UserInfos.Add(userInfo);
+            _db.SaveChanges();
+
 
             return Ok(body);
             
