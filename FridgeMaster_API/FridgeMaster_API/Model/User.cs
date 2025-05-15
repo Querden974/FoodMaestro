@@ -1,5 +1,7 @@
 ﻿
 
+using System.Text.Json.Serialization;
+
 namespace FridgeMaster_API.Model
 {
     public class User
@@ -12,7 +14,14 @@ namespace FridgeMaster_API.Model
 
         required public string email { get; set; }
 
+        public DateTime? CreatedAt { get; set; } = DateTime.UtcNow;
+
+        public DateTime? UpdatedAt { get; set; } = DateTime.UtcNow;
+        [JsonIgnore]
         public UserInfo? UserInfo { get; set; }
+        [JsonIgnore]
+        public Container? Container { get; set; }
+
 
     }
 }

@@ -4,6 +4,7 @@ using FridgeMaster_API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FridgeMaster_API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250515090327_Init")]
+    partial class Init
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -60,12 +63,6 @@ namespace FridgeMaster_API.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("Calories")
-                        .HasColumnType("int");
-
-                    b.Property<float?>("Carbs")
-                        .HasColumnType("float");
-
                     b.Property<int>("ContainerId")
                         .HasColumnType("int");
 
@@ -75,14 +72,8 @@ namespace FridgeMaster_API.Migrations
                     b.Property<DateTime?>("ExpirationDate")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<float?>("Fats")
-                        .HasColumnType("float");
-
                     b.Property<int>("FoodId")
                         .HasColumnType("int");
-
-                    b.Property<float?>("Proteins")
-                        .HasColumnType("float");
 
                     b.Property<float>("Quantity")
                         .HasMaxLength(50)
@@ -92,9 +83,6 @@ namespace FridgeMaster_API.Migrations
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("varchar(50)");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime(6)");
 
                     b.HasKey("Id");
 
@@ -114,8 +102,17 @@ namespace FridgeMaster_API.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int?>("Calories")
+                        .HasColumnType("int");
+
+                    b.Property<float?>("Carbs")
+                        .HasColumnType("float");
+
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime(6)");
+
+                    b.Property<float?>("Fats")
+                        .HasColumnType("float");
 
                     b.Property<string>("FoodCategory")
                         .IsRequired()
@@ -128,11 +125,8 @@ namespace FridgeMaster_API.Migrations
                     b.Property<string>("ImageUrl")
                         .HasColumnType("longtext");
 
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<string>("tag")
-                        .HasColumnType("longtext");
+                    b.Property<float?>("Proteins")
+                        .HasColumnType("float");
 
                     b.HasKey("Id");
 
@@ -148,9 +142,6 @@ namespace FridgeMaster_API.Migrations
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("id"));
 
                     b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("email")
@@ -188,9 +179,6 @@ namespace FridgeMaster_API.Migrations
                     b.Property<DateTime?>("Birthday")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("datetime(6)");
-
                     b.Property<string>("FirstName")
                         .HasMaxLength(50)
                         .HasColumnType("varchar(50)");
@@ -203,9 +191,6 @@ namespace FridgeMaster_API.Migrations
                     b.Property<string>("LastName")
                         .HasMaxLength(50)
                         .HasColumnType("varchar(50)");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime(6)");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");

@@ -5,7 +5,7 @@
 namespace FridgeMaster_API.Migrations
 {
     /// <inheritdoc />
-    public partial class RemoveRequiredField : Migration
+    public partial class DefaultCreatedAtTimeToFood : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

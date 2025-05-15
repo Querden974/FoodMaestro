@@ -15,7 +15,7 @@ namespace FridgeMaster_API.Controllers
         {
             _db = db;
         }
-
+        [ApiExplorerSettings(IgnoreApi = true)]
         [HttpPost]
         public async Task<IActionResult> WriteUserInfo()
         {

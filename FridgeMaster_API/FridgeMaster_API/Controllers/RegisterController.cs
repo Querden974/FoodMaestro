@@ -12,6 +12,7 @@ using Microsoft.Identity.Client;
 using Microsoft.IdentityModel.Tokens;
 using System.Text.Json;
 using Microsoft.AspNetCore.Identity;
+using FridgeMaster_API.Request;
 
 
 namespace FridgeMaster_API.Controllers
@@ -32,41 +33,38 @@ namespace FridgeMaster_API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> registration()
+        public async Task<IActionResult> registration([FromBody] RegisterRequest model)
         {
-            using var reader = new StreamReader(Request.Body);
-            var body = await reader.ReadToEndAsync();
-            
-            if (body.IsNullOrEmpty())
+
+            if (!ModelState.IsValid)
             {
-                return Problem("Request body is empty");
+                return Problem("Request is invalid");
             }
 
-            var requestData = JsonSerializer.Deserialize<User>(body);
 
-            if(_db.Users.Any(u => u.username == requestData.username))
+            if(_db.Users.Any(u => u.username == model.username))
             {
                 return Problem("This username is already taken");
             }
-            if (_db.Users.Any(u => u.email == requestData.email))
+            if (_db.Users.Any(u => u.email == model.email))
             {
                 return Problem("This email adress is already registered");
             }
 
             var hasher = new PasswordHasher<User>();
+
+            // Create New User
             var user = new User
             {
-                username = requestData.username,
-                password = requestData.password,
-                email = requestData.email
+                username = model.username,
+                password = model.password,
+                email = model.email
             };
-            user.password = hasher.HashPassword(user, requestData.password);
-
+            user.password = hasher.HashPassword(user, model.password);
             _db.Users.Add(user);
+            await _db.SaveChangesAsync();
 
-            
-            _db.SaveChanges();
-
+            // Create UserInfo bind to User
             var userInfo = new UserInfo
             {
                 UserId = user.id,
@@ -76,10 +74,19 @@ namespace FridgeMaster_API.Controllers
                 
             };
             _db.UserInfos.Add(userInfo);
-            _db.SaveChanges();
+            
+            // Create Container bind to User
+            var container = new Container
+            {
+                UserId = user.id,
+                ContainerName = $"{user.username}'s container"
+            };
+            _db.Containers.Add(container);
 
+            // Save All Changes
+            await _db.SaveChangesAsync();
 
-            return Ok(body);
+            return Ok(model);
             
            
             

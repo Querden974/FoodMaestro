@@ -23,7 +23,7 @@ namespace FridgeMaster_API.Controllers
             _configuration = configuration;
             _db = db;
         }
-
+        [ApiExplorerSettings(IgnoreApi = true)]
         [HttpPost]
         public async Task<IActionResult> Login()
         {
