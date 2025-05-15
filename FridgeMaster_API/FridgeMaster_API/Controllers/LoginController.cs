@@ -1,10 +1,12 @@
 ﻿using System.Text.Json;
+using AutoMapper;
 using FridgeMaster_API.Data;
 using FridgeMaster_API.Model;
 using FridgeMaster_API.Request;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
 namespace FridgeMaster_API.Controllers
@@ -13,57 +15,44 @@ namespace FridgeMaster_API.Controllers
     [ApiController]
     public class LoginController : ControllerBase
     {
-        private readonly IConfiguration _configuration;
+        private readonly IMapper _mapper;
 
         private readonly AppDbContext _db;
 
 
-        public LoginController(IConfiguration configuration, AppDbContext db)
+        public LoginController(IMapper mapper, AppDbContext db)
         {
-            _configuration = configuration;
+            _mapper = mapper;
             _db = db;
         }
-        [ApiExplorerSettings(IgnoreApi = true)]
+        //[ApiExplorerSettings(IgnoreApi = true)]
         [HttpPost]
-        public async Task<IActionResult> Login()
+        public async Task<IActionResult> Login([FromBody] LoginRequest body)
         {
-            using var reader = new StreamReader(Request.Body);
-            var body = await reader.ReadToEndAsync();
-
-            if (body.IsNullOrEmpty())
-            {
-                return Problem("You must enter credentials to log into your account");
-            }
-
-            var requestData = JsonSerializer.Deserialize<LoginRequest>(body);
+            if (!ModelState.IsValid) return Problem("Request Invalid");
 
             var hasher = new PasswordHasher<User>();
            
             
-            var userInDb = _db.Users.FirstOrDefault(u => u.username == requestData.username);
+            var userInDb = _db.Users
+                .Include(u => u.UserInfo)
+                
+                .FirstOrDefault(u => u.username == body.username);
             if (userInDb == null)
             {
                 return Problem("User not found");
             }
-            var resultPassword = hasher.VerifyHashedPassword(userInDb, userInDb.password, requestData.password);
+            var resultPassword = hasher.VerifyHashedPassword(userInDb, userInDb.password, body.password);
 
             if(resultPassword == PasswordVerificationResult.Success)
             {
                 Console.WriteLine("Logged");
-                var userInfoData = _db.UserInfos.First(ui => ui.UserId == userInDb.id);
+
+                var result = _mapper.Map<UserRequest>(userInDb);
                 return Ok(new
                 {
                     message = "Loggin Successful",
-                    data = new {
-                        id = userInDb.id,
-                        username = userInDb.username, 
-                        email = userInDb.email,
-                        userInfo = new {
-                            firstname = userInfoData.FirstName,
-                            lastname = userInfoData.LastName,
-                            birthday = userInfoData.Birthday,
-                            isFirstLog = userInfoData.IsFirstLoggin
-                        } }
+                    data = result
                 });
             }
             else

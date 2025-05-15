@@ -13,6 +13,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text.Json;
 using Microsoft.AspNetCore.Identity;
 using FridgeMaster_API.Request;
+using AutoMapper;
 
 
 namespace FridgeMaster_API.Controllers
@@ -21,17 +22,24 @@ namespace FridgeMaster_API.Controllers
     [ApiController]
     public class RegisterController : ControllerBase
     {
-        private readonly IConfiguration _configuration;
+        
+
+        private readonly IMapper _mapper;
 
         private readonly AppDbContext _db;
 
 
-        public RegisterController(IConfiguration configuration, AppDbContext db)
+        public RegisterController(IMapper mapper, AppDbContext db)
         {
-            _configuration = configuration;
+            _mapper = mapper;
             _db = db;
         }
 
+        /// <summary>
+        /// Create new User and initialize default Container and UserInfo
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<IActionResult> registration([FromBody] RegisterRequest model)
         {
