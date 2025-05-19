@@ -1,6 +1,7 @@
 ﻿using System.Text.Json;
 using FridgeMaster_API.Data;
 using FridgeMaster_API.Model;
+using FridgeMaster_API.Request;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 
@@ -15,43 +16,38 @@ namespace FridgeMaster_API.Controllers
         {
             _db = db;
         }
-        [ApiExplorerSettings(IgnoreApi = true)]
+        //[ApiExplorerSettings(IgnoreApi = true)]
         [HttpPost]
-        public async Task<IActionResult> WriteUserInfo()
+        public async Task<IActionResult> WriteUserInfo([FromBody] UserInfoRequest model)
         {
-            using var reader = new StreamReader(Request.Body);
-            var body = await reader.ReadToEndAsync();
 
 
-            if (body.IsNullOrEmpty())
+            if (!ModelState.IsValid)
             {
                 return Problem("Request body is empty");
             }
 
-            var requestData = JsonSerializer.Deserialize<UserInfo>(body);
+            
 
-            if (requestData.FirstName.IsNullOrEmpty())
+            if (model.FirstName.IsNullOrEmpty())
             {
                 return Problem("Please enter a First Name");
             }
-            if (requestData.LastName.IsNullOrEmpty())
+            if (model.LastName.IsNullOrEmpty())
             {
                 return Problem("Please enter a Last Name");
             }
-            //if (requestData.Birthday.HasValue)
-            //{
-            //    return Problem("Please enter your Birth Day");
-            //}
 
-            var user = _db.UserInfos.FirstOrDefault(u => u.UserId == requestData.UserId);
-            user.FirstName = requestData.FirstName;
-            user.LastName = requestData.LastName;
-            user.Birthday = requestData.Birthday;
+
+            var user = _db.UserInfos.First(u => u.UserId == model.UserId);
+            user.FirstName = model.FirstName;
+            user.LastName = model.LastName;
+            user.Birthday = model.Birthday;
             user.IsFirstLoggin = false;
 
             _db.SaveChanges();
 
-            return Ok(body);
+            return Ok(model);
         }
     }
 }
