@@ -5,13 +5,10 @@ import {Stack} from "expo-router";
 
 export default function Food() {
     return (
-        <SafeAreaProvider>
             <SafeAreaView >
                 <View>
                     <Text>Food</Text>
                 </View>
             </SafeAreaView>
-        </SafeAreaProvider>
-
     )
 }

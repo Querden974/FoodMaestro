@@ -1,21 +1,13 @@
 import {View, Text, TextInput, Button, Platform} from 'react-native'
 import React from 'react'
 import DateTimePicker from "@react-native-community/datetimepicker"
-import {useAuthStore} from "@/app/stores/useAuthStore";
+import {useAuthStore} from "~/app/stores/useAuthStore";
 import {useForm, Controller} from "react-hook-form";
-import {z} from "zod";
+import {FormDataUserInfo, UserInfoSchema} from "~/Validator/userInfoValidator";
 import {zodResolver} from "@hookform/resolvers/zod";
-import EditUserDataSubmit from "@/functions/EditUserDataSubmit";
+import EditUserDataSubmit from "~/functions/EditUserDataSubmit";
 import {Router, useRouter} from "expo-router";
 
-const schema = z.object({
-    UserId:z.number(),
-    FirstName: z.string(),
-    LastName: z.string(),
-    Birthday: z.date(),
-})
-
-export type FormDataUserInfo = z.infer<typeof schema>;
 
 export default function Onboarding() {
     const userId = useAuthStore(s=> s.id)
@@ -25,7 +17,7 @@ export default function Onboarding() {
         handleSubmit,
         formState:{errors}
     } = useForm<FormDataUserInfo>({
-        resolver: zodResolver(schema),
+        resolver: zodResolver(UserInfoSchema),
         defaultValues:{
             UserId: userId,
             Birthday: new Date()

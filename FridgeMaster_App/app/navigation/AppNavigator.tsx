@@ -7,6 +7,7 @@ import Register from '../screens/register';
 import Home from '../screens/Home';
 import Dashboard from '../screens/Dashboard';
 import Onboarding from '../screens/Onboarding';
+import {SafeAreaProvider} from "react-native-safe-area-context";
 
 export type RootStackParams = {
     Login:undefined;
@@ -18,7 +19,7 @@ export type RootStackParams = {
 const Stack = createNativeStackNavigator<RootStackParams>();
 export default function AppNavigator() {
     return (
-
+            <SafeAreaProvider>
                 <Stack.Navigator initialRouteName="Home" screenOptions={{ headerShown: false }}>
                     <Stack.Screen name="Login" component={Login} />
                     <Stack.Screen name="Register" component={Register} />
@@ -27,6 +28,7 @@ export default function AppNavigator() {
                     <Stack.Screen name="Onboarding" component={Onboarding} />
 
                 </Stack.Navigator>
+            </SafeAreaProvider>
 
     );
 }

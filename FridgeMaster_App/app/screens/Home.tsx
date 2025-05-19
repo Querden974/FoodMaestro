@@ -1,18 +1,35 @@
-import {Button, Image, Pressable, Text, View} from "react-native";
+import { Image, Pressable, View} from "react-native";
 import {SafeAreaProvider, SafeAreaView} from "react-native-safe-area-context";
-import {Link} from "expo-router";
-import {ReactElement} from "react";
-import {useAuthStore} from "@/app/stores/useAuthStore";
+import {Link, useNavigationContainerRef} from "expo-router";
+import {ReactElement, useEffect} from "react";
+import {useAuthStore} from "~/app/stores/useAuthStore";
 import {useRouter} from "expo-router";
+import {Button} from "~/components/ui/button"
+import {Text } from "~/components/ui/text";
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardFooter,
+    CardHeader,
+    CardTitle,
+} from '~/components/ui/card';
 
 
 export default function Home():ReactElement {
     const router = useRouter();
+    const navigationRef = useNavigationContainerRef()
     const isLoggedIn:boolean = useAuthStore(state => state.isLoggedIn);
-    if(isLoggedIn) router.navigate('/screens/Dashboard')
+
     const logout = useAuthStore(state => state.logout);
     const username:string = useAuthStore(state => state.username);
 
+
+    useEffect(() => {
+        if(navigationRef.isReady()){
+            if(isLoggedIn) router.navigate('/screens/Dashboard')
+        }
+    }, []);
     return (
         <SafeAreaProvider>
             <SafeAreaView className={"h-full px-3"}>
@@ -38,8 +55,13 @@ export default function Home():ReactElement {
                         <>
                             <Text className={"text-blue-400 text-4xl font-bold"}>Welcome to Food Maestro.</Text>
                             <View className={"w-1/2 gap-2"}>
-                                <Link href={"/screens/register"} className={"btn"}>Register</Link>
-                                <Link href={"/screens/login"} className={"btn-secondary"}>Login</Link>
+                                <Button onPress={()=> router.navigate("/screens/register")}>
+                                    <Text> Register</Text>
+                                </Button>
+                                <Button variant={"outline"} onPress={()=> router.navigate("/screens/login")}>
+                                    <Text> Login</Text>
+                                </Button>
+
                             </View>
                         </>
 

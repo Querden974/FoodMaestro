@@ -1,7 +1,10 @@
-import {View, Text, TextInput, Button, Alert, Platform} from 'react-native'
+import {View, TextInput, Alert, Platform} from 'react-native'
 import {useState} from 'react'
 import {SafeAreaProvider, SafeAreaView} from "react-native-safe-area-context";
 import {Router, useRouter} from "expo-router";
+import {Button } from "~/components/ui/button"
+import {Text} from "~/components/ui/text";
+import { Input } from "~/components/ui/input"
 
 export default function Register() {
     const router: Router = useRouter();
@@ -25,6 +28,8 @@ export default function Register() {
             password,
         };
 
+        console.log(form);
+
 
         try {
            const res:Response = await fetch(registerApi, {
@@ -33,7 +38,7 @@ export default function Register() {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify(form),
-                // agent: Platform.OS === 'android' ? new (require('https')).Agent({ rejectUnauthorized: false }) : undefined,
+
             })
             if(!res.ok){
                 throw new Error(`An error occured: ${res.status}`);
@@ -56,22 +61,51 @@ export default function Register() {
             <SafeAreaView className={"w-full items-center justify-center h-full gap-4"}>
                 <View className={"w-[80%] gap-2"}>
                     <Text>Username:</Text>
-                    <TextInput value={username} onChangeText={setUsername} className={"border rounded-xl"}/>
+                    {/*<TextInput value={username} onChangeText={setUsername} className={"border rounded-xl"}/>*/}
+                    <Input
+                        value={username}
+                        onChangeText={setUsername}
+                        placeholder={"Enter your Username"}
+
+                    />
                 </View>
                 <View className={"w-[80%] gap-2"}>
                     <Text>Email:</Text>
-                    <TextInput value={email} onChangeText={setEmail} className={"border rounded-xl"}/>
+                    <Input
+                        value={email}
+                        onChangeText={setEmail}
+                        placeholder={"Enter your Email Address"}
+
+                    />
+                    {/*<TextInput value={email} onChangeText={setEmail} className={"border rounded-xl"}/>*/}
                 </View>
                 <View className={"w-[80%] gap-2"}>
                     <Text>Password:</Text>
-                    <TextInput secureTextEntry={true} value={password} onChangeText={setPassword}   className={"border rounded-xl"}/>
+                    {/*<TextInput secureTextEntry={true} value={password} onChangeText={setPassword}   className={"border rounded-xl"}/>*/}
+                    <Input
+                        secureTextEntry={true}
+                        value={password}
+                        onChangeText={setPassword}
+                        placeholder={"Enter your Password"}
+
+                    />
                 </View>
                 <View className={"w-[80%] gap-2"}>
                     <Text>Confirm Password:</Text>
-                    <TextInput secureTextEntry={true} value={confirmPassword} onChangeText={setConfirmPassword}   className={"border rounded-xl"}/>
+                    {/*<TextInput secureTextEntry={true} value={confirmPassword} onChangeText={setConfirmPassword}   className={"border rounded-xl"}/>*/}
+                    <Input
+                        secureTextEntry={true}
+                        value={confirmPassword}
+                        onChangeText={setConfirmPassword}
+                        placeholder={"Confirm your Password"}
+
+                    />
                 </View>
                 <View className={"w-[80%] gap-2 rounded-xl"}>
-                    <Button title={"Create your account"} onPress={():void=>{handleSubmit()}} />
+                    <Button onPress={():void=>{handleSubmit()}}>
+                        <Text>Create your account</Text>
+                    </Button>
+
                 </View>
 
             </SafeAreaView>
