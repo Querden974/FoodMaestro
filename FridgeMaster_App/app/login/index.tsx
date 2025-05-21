@@ -1,5 +1,4 @@
 import {View, TextInput, Alert} from 'react-native'
-import {NativeStackNavigationProp} from "@react-navigation/native-stack";
 import {RefObject,useRef , useState, useEffect} from 'react'
 import {useNavigation} from "@react-navigation/native";
 import {SafeAreaProvider, SafeAreaView} from "react-native-safe-area-context";
@@ -7,21 +6,18 @@ import {Router, useRouter} from 'expo-router';
 import {useAuthStore} from "~/app/stores/useAuthStore";
 import {useUserInfo} from "~/app/stores/useUserInfo";
 import * as Burnt from "burnt"
-import {RootStackParams} from "~/app/navigation/AppNavigator";
 import {Button} from "~/components/ui/button";
 import {Text} from "~/components/ui/text";
 import {Input} from "~/components/ui/input"
 
-type NavigationProp = NativeStackNavigationProp<RootStackParams>
 
 export default function Login() {
     const router:Router = useRouter();
-    const navigation = useNavigation<NavigationProp>();
     const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
     // if(isLoggedIn) router.replace("/screens/Home")
-    useEffect(()=>{
-        if(isLoggedIn) navigation.navigate("Dashboard")
-    },[isLoggedIn])
+    // useEffect(()=>{
+    //     if(isLoggedIn) navigation.navigate("Dashboard")
+    // },[isLoggedIn])
     const login = useAuthStore((state) => state.login);
     const userInfo = useUserInfo(s=>s.fetchData);
     const userData = useUserInfo();
@@ -69,9 +65,9 @@ export default function Login() {
                      from: "top"
                  })
                  if(resData.data.userInfo.isFirstLog){
-                     router.navigate("/screens/Onboarding")
+                     router.navigate("/(app)/onboarding")
                  }else{
-                     router.navigate("/screens/Dashboard")
+                     router.navigate("/(app)/(dashboard)")
                  }
 
              }else{

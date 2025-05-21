@@ -42,7 +42,7 @@ export default function Options() {
             preset:"done",
             from: "top"
         })
-        router.replace('/screens/Home');
+        router.push('/');
     }
     return (
         <SafeAreaProvider>
@@ -108,7 +108,7 @@ export default function Options() {
                         </Button>
                     </CardFooter>
                 </Card>
-                
+
 
 
             </SafeAreaView>

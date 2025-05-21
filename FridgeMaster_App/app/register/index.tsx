@@ -45,7 +45,7 @@ export default function Register() {
             }
             if(res.status === 200){
                 console.log("Account created successfully");
-                router.replace('/screens/Home')
+                router.replace('/')
             }
 
 
