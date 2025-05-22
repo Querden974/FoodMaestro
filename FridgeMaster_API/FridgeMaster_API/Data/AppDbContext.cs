@@ -18,7 +18,7 @@ namespace FridgeMaster_API.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            var connectionString = _configuration.GetConnectionString("FoodMaestro");
+            var connectionString = _configuration.GetConnectionString("DefaultConnection");
             optionsBuilder.UseMySql(connectionString,new MySqlServerVersion( new Version(5, 7 ,24)));
         }
 

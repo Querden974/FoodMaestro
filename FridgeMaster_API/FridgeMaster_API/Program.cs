@@ -20,11 +20,11 @@ builder.Services.AddCors(op =>
 });
 
 
-
+Console.WriteLine(builder.Configuration.GetConnectionString("DefaultConnection"));
 
 // Add services to the container.
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseMySql(builder.Configuration.GetConnectionString("FoodMaestro"),
+    options.UseMySql(builder.Configuration.GetConnectionString("DefaultConnection"),
         new MySqlServerVersion(new Version(5, 7, 24))));
 
 
