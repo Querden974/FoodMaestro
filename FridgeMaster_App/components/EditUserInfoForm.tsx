@@ -23,7 +23,8 @@ export default function EditUserInfoForm() {
         birthday: useUserInfo(s=> s.birthday),
 
     }
-    const API = "http://192.168.1.96:5020/api/UserInfo";
+    // const API = "http://192.168.1.96:5020/api/UserInfo";
+    const API = process.env.EXPO_PUBLIC_API_URL+"/UserInfo"
     const router:Router = useRouter()
 
 
@@ -48,7 +49,7 @@ export default function EditUserInfoForm() {
     const [showPicker, setShowPicker] = React.useState(false);
 
     const onSubmit = async (data: FormDataUserInfo): Promise<void> => {
-
+        console.log(data)
         try {
             await EditUserDataSubmit(API, data, router, userDataStore);
         } catch (err) {
@@ -107,10 +108,13 @@ export default function EditUserInfoForm() {
                 <DateTimePicker
                     value={value || new Date()}
                 mode="date"
-                display={Platform.OS === "ios" ? "spinner" : "default"}
+                display={"default"}
                 onChange={(_, selectedDate) => {
                 setShowPicker(Platform.OS === "ios");
-                if (selectedDate) onChange(selectedDate);
+                if (selectedDate) {
+                    onChange(selectedDate)
+                    setShowPicker(false)
+                }
             }}
                 />
             )}

@@ -18,13 +18,18 @@ export default  function RootLayout() {
                                headerShown: true,
                                headerTitle: "Login"
                            }}  />
-            <Stack.Screen  name="(app)"
+            <Stack.Screen  name="(app)/"
                            options={{
                                headerShown: false
                            }}  />
             <Stack.Screen  name="(app)/(dashboard)"
                            options={{
                                headerShown: false
+                           }}  />
+            <Stack.Screen  name="(app)/onboarding"
+                           options={{
+                               headerShown: true,
+                               headerTitle: "Onboarding"
                            }}  />
         </Stack>
     )

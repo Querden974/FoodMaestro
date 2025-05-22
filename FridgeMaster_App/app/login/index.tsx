@@ -24,8 +24,8 @@ export default function Login() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
 
-    const registerApi = "http://192.168.1.96:5020/api/Login";
-
+    // const registerApi = "http://192.168.1.96:5020/api/Login";
+    const loginApi:string = process.env.EXPO_PUBLIC_API_URL+"/login"
     const handleForm:()=>Promise<void> = async ():Promise<void> => {
 
          const form = {
@@ -34,7 +34,7 @@ export default function Login() {
          };
 
          try {
-             const res:Response = await fetch(registerApi, {
+             const res:Response = await fetch(loginApi, {
                  method: "POST",
                  headers: {
                      "Content-Type": "application/json",
@@ -48,7 +48,7 @@ export default function Login() {
              if(res.status === 200){
 
                  const resData = await res.json()
-                 console.log(resData);
+                 // console.log(resData);
                  login(resData.data.username, resData.data.email ,resData.data.id);
 
                  userInfo(
@@ -59,23 +59,23 @@ export default function Login() {
                  )
 
 
-                 Burnt.toast({
-                     title: "Login successfull",
-                     preset:"done",
-                     from: "top"
-                 })
+                 // Burnt.toast({
+                 //     title: "Login successfull",
+                 //     preset:"done",
+                 //     from: "top"
+                 // })
                  if(resData.data.userInfo.isFirstLog){
-                     router.navigate("/(app)/onboarding")
+                     router.push("/onboarding")
                  }else{
                      router.navigate("/(app)/(dashboard)")
                  }
 
              }else{
-                 Burnt.toast({
-                     title: "Wrong Credentials",
-                     preset:"error",
-                     from: "top"
-                 })
+                 // Burnt.toast({
+                 //     title: "Wrong Credentials",
+                 //     preset:"error",
+                 //     from: "top"
+                 // })
              }
 
          }catch (err){

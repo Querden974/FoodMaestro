@@ -39,13 +39,13 @@ export default function Home():ReactElement {
 
                         {!isLoggedIn &&
                             <>
-                                <Text className={"text-blue-400 text-4xl font-bold"}>Welcome to Food Maestro.</Text>
+                                <Text className={"text-blue-400 text-4xl text-center font-bold"}>Welcome to Food Maestro.</Text>
                                 <View className={"w-1/2 gap-2"}>
-                                    <Button>
-                                        <Link href={"/register"}> Register</Link>
+                                    <Button onPress={() => router.push("/register")}>
+                                        <Text>Register</Text>
                                     </Button>
-                                    <Button variant={"outline"}>
-                                        <Link href={"/login"}> Login</Link>
+                                    <Button variant={"outline"} onPress={() => router.push('/login')}>
+                                        <Text>Login</Text>
                                     </Button>
 
                                 </View>

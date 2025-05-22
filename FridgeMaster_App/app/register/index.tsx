@@ -13,8 +13,8 @@ export default function Register() {
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
 
-    const registerApi = "http://192.168.1.96:5020/api/Register";
-
+    // const registerApi = "http://192.168.1.96:5020/api/Register";
+    const registerApi = process.env.EXPO_PUBLIC_API_URL+"/register";
     async function handleSubmit():Promise<void> {
         if(password !== confirmPassword){
             return Alert.alert("Passwords do not match");

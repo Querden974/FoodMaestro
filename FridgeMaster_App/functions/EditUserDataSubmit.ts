@@ -9,7 +9,7 @@ export default async function EditUserDataSubmit(apiUrl: string,
                                                  router:Router,
                                                  userInfo:(firstname:string,lastname:string, birthday:Date, isFirstLogin:boolean) => void)
     : Promise<void> {
-    console.log("✅ EditUserDataSubmit loaded");
+    // console.log("✅ EditUserDataSubmit loaded");
 
     try {
         const payload = {
