@@ -51,3 +51,4 @@ FridgeMaster_API/FridgeMaster_API/appsettings.Development.json
 android
 ios
 lazygit
+.env
