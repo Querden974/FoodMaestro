@@ -6,7 +6,7 @@ namespace FridgeMaster_API.Model
     {
         public int Id { get; set; }
         public int ContainerId { get; set; }
-
+        
         public Container Container { get; set; }
         public int FoodId { get; set; }
         

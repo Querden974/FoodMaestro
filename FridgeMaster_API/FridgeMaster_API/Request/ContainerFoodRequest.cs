@@ -15,12 +15,10 @@ namespace FridgeMaster_API.Request
         public float? Fats { get; set; }
         public DateTime? UpdatedAt { get; set; } = DateTime.UtcNow;
         public DateTime? ExpirationDate { get; set; }
+
+
         
         
-        [JsonIgnore]
-        public FoodRequest Food { get; set; }
-        [JsonIgnore]
-        public ContainerRequest Container { get; set; }
 
 
     }
