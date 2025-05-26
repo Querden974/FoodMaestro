@@ -6,5 +6,7 @@
 
         public string ContainerName { get; set; }
         public UserRequest User { get; set; }
+        public ICollection<ContainerFoodRequest> ContainerFood { get; set; }
+
     }
 }

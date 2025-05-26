@@ -102,7 +102,7 @@ export default function Options() {
                                     <Text>API INTERACTION (TEMP)</Text>
                                 </AccordionTrigger>
                                 <AccordionContent>
-                                    <AddFoodDialog />
+                                    <AddFoodDialog button={"Add Food"} />
                                 </AccordionContent>
                             </AccordionItem>
 

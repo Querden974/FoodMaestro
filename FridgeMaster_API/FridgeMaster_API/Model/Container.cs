@@ -13,7 +13,7 @@ namespace FridgeMaster_API.Model
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
 
-        [JsonIgnore]
+        
         public ICollection<ContainerFood> ContainerFood { get; set; }
 
     }

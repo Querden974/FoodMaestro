@@ -7,14 +7,16 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger
 } from "~/components/ui/alert-dialog";
-import {Button} from "~/components/ui/button";
+import {Button, ButtonProps, buttonVariants} from "~/components/ui/button";
 import {Text} from "~/components/ui/text";
 import React, {useState} from "react";
-import {View} from "react-native";
+import {PressableProps, View} from "react-native";
 import {Input} from "~/components/ui/input";
 import AddFoodSubmit from "~/functions/Options/AddFoodSubmit";
 
-export default function AddFoodDialog(){
+type ButtonVariants = NonNullable<ButtonProps["variant"]>
+
+export default function AddFoodDialog({button, variant}:{button:string, variant:ButtonVariants}){
     const FoodApiRoute = process.env.EXPO_PUBLIC_API_URL+"/Food"
 
     const[foodData, setFoodData] = useState({
@@ -25,16 +27,21 @@ export default function AddFoodDialog(){
 
     })
 
-    async function submitHandle(){
+    async function submitHandle() :Promise<void>{
         await AddFoodSubmit(FoodApiRoute,foodData)
+        setFoodData({
+            FoodName: "",
+            FoodCategory: "",
+            imageUrl:"",
+            tag:""})
     }
     return (
 
         <AlertDialog>
 
             <AlertDialogTrigger asChild>
-                <Button variant='outline'>
-                    <Text>Show Alert Dialog</Text>
+                <Button variant={variant}>
+                    <Text>{button}</Text>
                 </Button>
             </AlertDialogTrigger>
             <AlertDialogContent>
@@ -44,19 +51,33 @@ export default function AddFoodDialog(){
                     <View className={"mt-4"}>
                         <View>
                             <Text>Food Name: *</Text>
-                            <Input />
+                            <Input
+                            value={foodData.FoodName}
+                            onChangeText={ value => setFoodData({ ...foodData , FoodName: value })}
+                            placeholder={"Enter Food Name"}/>
+
                         </View>
                         <View>
                             <Text>Category: *</Text>
-                            <Input />
+                            <Input
+                                value={foodData.FoodCategory}
+                                onChangeText={ value => setFoodData({ ...foodData , FoodCategory: value })}
+                                placeholder={"Enter Food Category"}/>
                         </View>
                         <View>
                             <Text>Image URL:</Text>
-                            <Input />
+                            <Input
+                                value={foodData.imageUrl}
+                                onChangeText={ value => setFoodData({ ...foodData , imageUrl: value })}
+                                placeholder={"Paste an image url"}
+                            />
                         </View>
                         <View>
                             <Text>Tag:</Text>
-                            <Input />
+                            <Input
+                                value={foodData.tag}
+                                onChangeText={ value => setFoodData({ ...foodData , tag: value })}
+                                placeholder={"Enter a food tag"}/>
                         </View>
                     </View>
 
