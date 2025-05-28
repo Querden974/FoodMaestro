@@ -4,7 +4,7 @@ import {Link, useNavigationContainerRef} from "expo-router";
 import {ReactElement, useEffect} from "react";
 import {useAuthStore} from "~/app/stores/useAuthStore";
 import {useRouter} from "expo-router";
-import {Button} from "~/components/ui/button/button.native"
+import {Button} from "~/components/ui/button/button.web"
 import {Text } from "~/components/ui/text";
 import {
     Card,
@@ -33,29 +33,26 @@ export default function Home():ReactElement {
     // }, []);
     return (
         <>
-            <SafeAreaProvider>
-                <SafeAreaView className={"h-screen px-3"}>
-                    <View className={"flex-1 justify-center items-center gap-6"}>
+            <div className={"flex-1 justify-center items-center gap-6"}>
 
                         {!isLoggedIn &&
                             <>
                                 <Text className={"text-blue-400 text-4xl text-center font-bold"}>Welcome to Food Maestro.</Text>
-                                <View className={"w-1/2 gap-2"}>
-                                    <Button onPress={() => router.push("/register")}>
-                                        <Text>Register</Text>
+                                <div className={"w-1/2 gap-2"}>
+                                    <Button asChild variant={"outline"}>
+                                        <a href="/register">Register</a>
                                     </Button>
-                                    <Button variant={"outline"} onPress={() => router.push('/login')}>
-                                        <Text>Login</Text>
+                                    <Button asChild>
+                                        <a href="/login">Login</a>
                                     </Button>
+                                    
 
-                                </View>
+                                </div>
                             </>
 
                         }
-                    </View>
-                </SafeAreaView>
-            </SafeAreaProvider>
-    </>
+                    </div>
+        </>
 
 
     );

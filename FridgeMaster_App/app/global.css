@@ -2,12 +2,3 @@
 @tailwind components;
 @tailwind utilities;
 
-.btn{
-    @apply text-center py-3 rounded-xl bg-primary
-}
-.btn-secondary{
-    @apply text-center py-3 border-2 border-primary rounded-xl
-}
-@tailwind base;
-@tailwind components;
-@tailwind utilities;

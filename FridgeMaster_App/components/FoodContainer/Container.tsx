@@ -1,6 +1,6 @@
 import {Text} from "~/components/ui/text";
 import {Pressable, View} from "react-native";
-import {Button} from '~/components/ui/button'
+import {Button} from '~/components/ui/button/button.native'
 import React from "react";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import AddFoodDialog from "~/components/Options/AddFoodDialog";

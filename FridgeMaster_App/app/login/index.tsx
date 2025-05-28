@@ -6,7 +6,7 @@ import {Router, useRouter} from 'expo-router';
 import {useAuthStore} from "~/app/stores/useAuthStore";
 import {useUserInfo} from "~/app/stores/useUserInfo";
 import * as Burnt from "burnt"
-import {Button} from "~/components/ui/button";
+import {Button} from "~/components/ui/button/button.native";
 import {Text} from "~/components/ui/text";
 import {Input} from "~/components/ui/input"
 

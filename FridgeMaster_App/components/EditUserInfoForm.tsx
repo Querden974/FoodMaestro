@@ -11,7 +11,7 @@ import {FormDataUserInfo, UserInfoSchema} from "~/Validator/userInfoValidator";
 import {z} from "zod";
 import {Input} from "~/components/ui/input"
 import {Text} from "~/components/ui/text";
-import {Button} from "~/components/ui/button";
+import {Button} from "~/components/ui/button/button.native";
 
 
 export default function EditUserInfoForm() {

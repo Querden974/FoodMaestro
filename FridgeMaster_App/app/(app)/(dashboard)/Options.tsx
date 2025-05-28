@@ -8,7 +8,7 @@ import {useRouter} from "expo-router";
 import {useAuthStore} from "~/app/stores/useAuthStore";
 import {useUserInfo} from "~/app/stores/useUserInfo";
 
-import {Button} from "~/components/ui/button"
+import {Button} from "~/components/ui/button/button.native"
 import {Text} from "~/components/ui/text";
 import {
     Card,

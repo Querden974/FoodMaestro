@@ -2,7 +2,7 @@ import {View, TextInput, Alert, Platform} from 'react-native'
 import {useState} from 'react'
 import {SafeAreaProvider, SafeAreaView} from "react-native-safe-area-context";
 import {Router, useRouter} from "expo-router";
-import {Button } from "~/components/ui/button"
+import {Button } from "~/components/ui/button/button.native"
 import {Text} from "~/components/ui/text";
 import { Input } from "~/components/ui/input"
 

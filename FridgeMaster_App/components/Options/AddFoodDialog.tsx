@@ -7,7 +7,7 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger
 } from "~/components/ui/alert-dialog";
-import {Button, ButtonProps, buttonVariants} from "~/components/ui/button";
+import {Button, ButtonProps, buttonVariants} from "~/components/ui/button/button.native";
 import {Text} from "~/components/ui/text";
 import React, {useState} from "react";
 import {PressableProps, View} from "react-native";
