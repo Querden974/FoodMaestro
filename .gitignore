@@ -52,3 +52,6 @@ android
 ios
 lazygit
 .env
+
+docker-compose.yaml
+dockerfile
