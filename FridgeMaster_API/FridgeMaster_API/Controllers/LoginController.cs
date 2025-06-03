@@ -49,10 +49,19 @@ namespace FridgeMaster_API.Controllers
                 Console.WriteLine("Logged");
 
                 var result = _mapper.Map<UserRequest>(userInDb);
+                var isContainerNotEmpty = _db.Containers.Any(c => c.UserId == userInDb.id);
+
+                
+                var containers = await _db.Containers.Where(c => c.UserId == userInDb.id)
+                    .Include(cf => cf.ContainerFood)
+                    .ThenInclude(f => f.FoodFactItem)
+                    .ToListAsync();
+
                 return Ok(new
                 {
                     message = "Loggin Successful",
-                    data = result
+                    data = result,
+                    container = containers
                 });
             }
             else

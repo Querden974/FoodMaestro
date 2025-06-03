@@ -8,9 +8,11 @@ namespace FridgeMaster_API.Data
         private readonly IConfiguration _configuration;
         public DbSet<User> Users => Set<User>();
         public DbSet<UserInfo> UserInfos => Set<UserInfo>();  
-        public DbSet<Food> Foods => Set<Food>();
+ 
         public DbSet<Container> Containers => Set<Container>();
         public DbSet<ContainerFood> ContainerFoods => Set<ContainerFood>();
+
+        public DbSet<FoodFactsItem> FoodFactsItems => Set<FoodFactsItem>();
 
         public AppDbContext(DbContextOptions<AppDbContext> options, IConfiguration configuration) : base(options) {
             _configuration = configuration;
@@ -77,7 +79,7 @@ namespace FridgeMaster_API.Data
                       .HasForeignKey(c => c.ContainerId)
                       .OnDelete(DeleteBehavior.Cascade);
 
-                entity.HasOne(cf => cf.Food)
+                entity.HasOne(cf => cf.FoodFactItem)
                       .WithMany(f => f.ContainerFood)
                       .HasForeignKey(cf => cf.FoodId)
                       .OnDelete(DeleteBehavior.Restrict);

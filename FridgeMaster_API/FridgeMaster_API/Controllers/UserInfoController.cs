@@ -45,7 +45,7 @@ namespace FridgeMaster_API.Controllers
             user.Birthday = model.Birthday;
             user.IsFirstLoggin = false;
 
-            _db.SaveChanges();
+            await _db.SaveChangesAsync();
 
             return Ok(model);
         }

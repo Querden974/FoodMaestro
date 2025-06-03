@@ -35,6 +35,8 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="MySql.Data" Version="9.3.0" />
+    <PackageReference Include="OpenFoodFacts.DotNet.Wrapper" Version="0.0.8" />
+    <PackageReference Include="OpenFoodFacts4Net.ApiClient" Version="2.0.0" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="8.0.3" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
   </ItemGroup>

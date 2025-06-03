@@ -45,7 +45,7 @@ namespace FridgeMaster_API.Controllers
             {
                 var select = await _db.ContainerFoods
                     .Where(cf => cf.ContainerId == cId)
-                    .Include(cf => cf.Food)
+                    .Include(cf => cf.FoodFactItem)
                     .Include(cf => cf.Container).ThenInclude(c => c.User)
                     .ToListAsync();
 
@@ -69,7 +69,7 @@ namespace FridgeMaster_API.Controllers
             if (isContainerExist)
             {
                 var select = await _db.ContainerFoods
-                    .Include(cf => cf.Food)
+                    .Include(cf => cf.FoodFactItem)
                     .Include(cf => cf.Container).ThenInclude(c => c.User)
                     .FirstAsync(cf => cf.Id == Id);
                 var result = _mapper.Map<ContainerFoodRequest>(select);
@@ -93,10 +93,6 @@ namespace FridgeMaster_API.Controllers
                 FoodId = model.FoodId,
                 Quantity = model.Quantity,
                 Unit = model.Unit,
-                Calories = model.Calories,
-                Proteins = model.Proteins,
-                Carbs = model.Carbs,
-                Fats = model.Fats,
                 UpdatedAt = DateTime.UtcNow
             };
 

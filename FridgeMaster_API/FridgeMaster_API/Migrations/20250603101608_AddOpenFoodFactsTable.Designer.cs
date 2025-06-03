@@ -4,6 +4,7 @@ using FridgeMaster_API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FridgeMaster_API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250603101608_AddOpenFoodFactsTable")]
+    partial class AddOpenFoodFactsTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -60,6 +63,12 @@ namespace FridgeMaster_API.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int?>("Calories")
+                        .HasColumnType("int");
+
+                    b.Property<float?>("Carbs")
+                        .HasColumnType("float");
+
                     b.Property<int>("ContainerId")
                         .HasColumnType("int");
 
@@ -69,8 +78,14 @@ namespace FridgeMaster_API.Migrations
                     b.Property<DateTime?>("ExpirationDate")
                         .HasColumnType("datetime(6)");
 
+                    b.Property<float?>("Fats")
+                        .HasColumnType("float");
+
                     b.Property<int>("FoodId")
                         .HasColumnType("int");
+
+                    b.Property<float?>("Proteins")
+                        .HasColumnType("float");
 
                     b.Property<float>("Quantity")
                         .HasMaxLength(50)
@@ -135,16 +150,9 @@ namespace FridgeMaster_API.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Brand")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
                     b.Property<string>("Code")
                         .IsRequired()
                         .HasColumnType("longtext");
-
-                    b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("datetime(6)");
 
                     b.Property<bool>("HasPalmOil")
                         .HasColumnType("tinyint(1)");
@@ -180,9 +188,6 @@ namespace FridgeMaster_API.Migrations
                     b.Property<string>("ProductName")
                         .IsRequired()
                         .HasColumnType("longtext");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime(6)");
 
                     b.HasKey("Id");
 
@@ -287,7 +292,7 @@ namespace FridgeMaster_API.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("FridgeMaster_API.Model.FoodFactsItem", "Food")
+                    b.HasOne("FridgeMaster_API.Model.Food", "Food")
                         .WithMany("ContainerFood")
                         .HasForeignKey("FoodId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -314,7 +319,7 @@ namespace FridgeMaster_API.Migrations
                     b.Navigation("ContainerFood");
                 });
 
-            modelBuilder.Entity("FridgeMaster_API.Model.FoodFactsItem", b =>
+            modelBuilder.Entity("FridgeMaster_API.Model.Food", b =>
                 {
                     b.Navigation("ContainerFood");
                 });

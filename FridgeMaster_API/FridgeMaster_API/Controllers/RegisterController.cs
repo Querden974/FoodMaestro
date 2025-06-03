@@ -49,7 +49,7 @@ namespace FridgeMaster_API.Controllers
                 return Problem("Request is invalid");
             }
 
-            Console.WriteLine(model);
+            //Console.WriteLine(model);
 
             if(_db.Users.Any(u => u.username == model.username))
             {

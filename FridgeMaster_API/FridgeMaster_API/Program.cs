@@ -4,6 +4,8 @@ using FridgeMaster_API.Data;
 using Microsoft.AspNetCore.Authentication;
 using System.Reflection;
 
+
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.WebHost.ConfigureKestrel(serverOptions =>
@@ -18,6 +20,7 @@ builder.Services.AddCors(op =>
         policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
     });
 });
+
 
 
 Console.WriteLine(builder.Configuration.GetConnectionString("DefaultConnection"));

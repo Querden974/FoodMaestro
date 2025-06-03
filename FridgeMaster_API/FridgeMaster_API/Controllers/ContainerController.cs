@@ -1,10 +1,12 @@
-﻿using AutoMapper;
+﻿using System.Diagnostics.CodeAnalysis;
+using AutoMapper;
 using FridgeMaster_API.Data;
 using FridgeMaster_API.Model;
 using FridgeMaster_API.Request;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 namespace FridgeMaster_API.Controllers
 {
@@ -29,6 +31,8 @@ namespace FridgeMaster_API.Controllers
         {
             var query = await _db.Containers
                 .Include(c => c.User)
+                .Include(cf => cf.ContainerFood)
+
                 .ToListAsync();
             var result = _mapper.Map<List<ContainerRequest>>(query);
             return Ok(result);
