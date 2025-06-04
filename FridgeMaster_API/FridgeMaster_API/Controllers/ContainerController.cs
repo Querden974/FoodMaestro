@@ -94,6 +94,9 @@ namespace FridgeMaster_API.Controllers
         [HttpPost]
         public async Task<ActionResult<Container>> CreateContainer([FromBody] Container model)
         {
+            var count = await _db.Containers.CountAsync(c => c.UserId == model.UserId);
+            if (count >= 3) return BadRequest("User reach maximum containers");
+
             var container = new Container
             {
                 UserId = model.UserId,
@@ -102,6 +105,26 @@ namespace FridgeMaster_API.Controllers
             _db.Containers.Add(container);
             await _db.SaveChangesAsync();
             return CreatedAtAction(nameof(GetContainer), new { id = container.Id }, container);
+        }
+
+        /// <summary>
+        /// Get User Containers
+        /// </summary>
+        /// <param name="uId"></param>
+        /// <returns></returns>
+        [HttpGet("uId")]
+        public async Task<ActionResult<IEnumerable<ContainerRequest>>> GetUserContainers(int uId)
+        {
+            var containerExists = _db.Containers.Any(c => c.UserId == uId);
+
+            if (containerExists)
+            {
+               var containers =  await _db.Containers.Where(c => c.UserId == uId)
+                    .Include(cf => cf.ContainerFood).ThenInclude(f => f.FoodFactItem)
+                    .ToArrayAsync();
+                return Ok(containers);
+            }
+            return Problem("User don't have containers");
         }
     }
 }

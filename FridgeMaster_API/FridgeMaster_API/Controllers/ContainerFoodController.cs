@@ -85,12 +85,18 @@ namespace FridgeMaster_API.Controllers
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<ActionResult<ContainerFood>> CreateContainerFood([FromBody] ContainerFoodRequest model)
+        public async Task<ActionResult<ContainerFood>> CreateContainerFood([FromBody] ContainerFoodCreationRequest model)
         {
+            var itemExist = _db.FoodFactsItems.Any(f => f.Code == model.FoodId.ToString());
+            if (!itemExist) return NotFound("Item not found");
+
+            var item = _db.FoodFactsItems.First(f => f.Code == model.FoodId.ToString());
+            
             var containerFood = new ContainerFood
             {
                 ContainerId = model.ContainerId,
-                FoodId = model.FoodId,
+                FoodId = model.Id,
+                
                 Quantity = model.Quantity,
                 Unit = model.Unit,
                 UpdatedAt = DateTime.UtcNow

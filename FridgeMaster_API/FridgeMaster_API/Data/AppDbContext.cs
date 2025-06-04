@@ -62,8 +62,8 @@ namespace FridgeMaster_API.Data
                 entity.Property(c => c.ContainerName).HasMaxLength(50).IsRequired();
 
                 entity.HasOne(c => c.User)
-                      .WithOne(u => u.Container)
-                      .HasForeignKey<Container>(c=> c.UserId)
+                      .WithMany(u => u.Container)
+                      .HasForeignKey(c=> c.UserId)
                       .OnDelete(DeleteBehavior.Cascade);
             });
 

@@ -20,7 +20,7 @@ namespace FridgeMaster_API.Model
         
         public UserInfo? UserInfo { get; set; }
         
-        public Container? Container { get; set; }
+        public IEnumerable<Container>? Container { get; set; }
 
 
     }
