@@ -54,12 +54,6 @@ export default function Options() {
         clearUserInfo();
         console.log('logout');
 
-        // Burnt.toast({
-        //     title: "Disconnected, See you soon!",
-        //     preset:"done",
-        //     from: "top"
-        // })
-        // return<Redirect href={"/"}/>
         return router.dismissAll();
     }
 
@@ -102,7 +96,7 @@ export default function Options() {
                                     <Text>API INTERACTION (TEMP)</Text>
                                 </AccordionTrigger>
                                 <AccordionContent>
-                                    <AddFoodDialog button={"Add Food"} />
+                                    <AddFoodDialog button={"Add Food"} variant={"default"} />
                                 </AccordionContent>
                             </AccordionItem>
 
@@ -118,13 +112,18 @@ export default function Options() {
                                     </Text>
                                 </AccordionContent>
                             </AccordionItem>
+
+
                         </Accordion>
+
                     </CardContent>
+
                     <CardFooter className={"mt-auto mx-auto"}>
                         <Button variant={"destructive"} onPress={Logout}>
                             <Text>Disconnect</Text>
                         </Button>
                     </CardFooter>
+
                 </Card>
 
 

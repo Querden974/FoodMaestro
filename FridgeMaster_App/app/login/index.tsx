@@ -1,14 +1,13 @@
-import {View, TextInput, Alert} from 'react-native'
-import {RefObject,useRef , useState, useEffect} from 'react'
-import {useNavigation} from "@react-navigation/native";
-import {SafeAreaProvider, SafeAreaView} from "react-native-safe-area-context";
-import {Router, useRouter} from 'expo-router';
-import {useAuthStore} from "~/app/stores/useAuthStore";
-import {useUserInfo} from "~/app/stores/useUserInfo";
-import * as Burnt from "burnt"
-import {Button} from "~/components/ui/button/button.native";
-import {Text} from "~/components/ui/text";
-import {Input} from "~/components/ui/input"
+import { Router, useRouter } from 'expo-router';
+import { useState } from 'react';
+import { View } from 'react-native';
+import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
+import { useAuthStore } from "~/app/stores/useAuthStore";
+import { useContainerStore } from "~/app/stores/useContainerStore";
+import { useUserInfo } from "~/app/stores/useUserInfo";
+import { Button } from "~/components/ui/button/button.native";
+import { Input } from "~/components/ui/input";
+import { Text } from "~/components/ui/text";
 
 
 export default function Login() {
@@ -21,11 +20,14 @@ export default function Login() {
     const login = useAuthStore((state) => state.login);
     const userInfo = useUserInfo(s=>s.fetchData);
     const userData = useUserInfo();
+
+    const containerFetch = useContainerStore(s => s.fetchContainers);
+
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
 
-    // const registerApi = "http://192.168.1.96:5020/api/Login";
-    const loginApi:string = process.env.EXPO_PUBLIC_API_URL+"/login"
+    const loginApi = "http://192.168.1.96:5020/api/Login";
+    // const loginApi:string = process.env.EXPO_PUBLIC_API_URL+"/Login"
     const handleForm:()=>Promise<void> = async ():Promise<void> => {
 
          const form = {
@@ -57,13 +59,16 @@ export default function Login() {
                      resData.data.userInfo.birthday,
                      resData.data.userInfo.isFirstLoggin
                  )
+                containerFetch(resData.container);
+                
+                // console.log(resData.container)
+
+                
 
 
-                 // Burnt.toast({
-                 //     title: "Login successfull",
-                 //     preset:"done",
-                 //     from: "top"
-                 // })
+
+                
+
                  if(resData.data.userInfo.isFirstLog){
                      router.push("/onboarding")
                  }else{
@@ -71,11 +76,7 @@ export default function Login() {
                  }
 
              }else{
-                 // Burnt.toast({
-                 //     title: "Wrong Credentials",
-                 //     preset:"error",
-                 //     from: "top"
-                 // })
+                // Add toast
              }
 
          }catch (err){
