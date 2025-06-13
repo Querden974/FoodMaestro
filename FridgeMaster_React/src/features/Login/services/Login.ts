@@ -5,7 +5,8 @@ import type {ContainerType} from "@/shared/store/useContainerStore.ts";
 export async function doLogin (form:object,
                                setAuth: AuthStateType["login"] ,
                                setUserInfo:UserInfoType["fetchData"],
-                               setContainer:ContainerType["fetchContainers"]  ):Promise<void> {
+                               setContainer:ContainerType["fetchContainers"],
+                               redirect: () => void  ):Promise<void> {
     const registerApi = import.meta.env.VITE_API_URL + "/Login";
 
     try {
@@ -32,6 +33,9 @@ export async function doLogin (form:object,
                 resData.data.userInfo.isFirstLoggin
             );
             setContainer(resData.container);
+            redirect();
+
+            
             console.log(resData);
 
 

@@ -8,6 +8,8 @@ import {useAuthStore} from "@/features/Login/store/useAuthStore.ts";
 import {useContainerStore} from "@/shared/store/useContainerStore.ts";
 import {useUserInfo} from "@/shared/store/useUserInfo.ts";
 
+import { useNavigate } from "@tanstack/react-router";
+
 import { z } from "zod";
 
 
@@ -24,6 +26,10 @@ const loginFormSchema = z
 
 
 export default function LoginForm() {
+    const navigate = useNavigate();
+    const redirect = () => {navigate({
+                to:"/dashboard"
+            })}
     const login = useAuthStore((s) => s.login);
     const userInfo = useUserInfo(s => s.fetchData);
     const containers = useContainerStore(s => s.fetchContainers);
@@ -36,7 +42,13 @@ export default function LoginForm() {
             onChange: loginFormSchema
         },
         onSubmit: async ( {value}) => {
-            await doLogin(value, login, userInfo, containers);
+
+               await doLogin(value, login, userInfo, containers, redirect )
+
+            
+            
+            
+            
             // alert(JSON.stringify(value, null, 2))
         },
     })

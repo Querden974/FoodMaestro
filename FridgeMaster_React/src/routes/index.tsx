@@ -5,18 +5,32 @@ import FaqArea from "@/features/Home/component/FaqArea.tsx";
 import Footer from "@/features/Home/component/Footer.tsx";
 import NavBar from "@/features/Home/component/NavBar.tsx";
 
-import {useRef} from "react";
+import { useRouter } from "@tanstack/react-router";
+import {useRef, useEffect} from "react";
 
 import {useAuthStore} from "@/features/Login/store/useAuthStore.ts";
+import { useNavigate } from "@tanstack/react-router";
+
 
 
 export const Route = createFileRoute({
-    component: Index,
+    component: Index,    
 })
 
-export function Index() {
 
-    const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
+export function Index() {
+    const location = useRouter().state.location.state.message;
+    console.log(location)
+    const navigate = useNavigate();
+    const isLoggedIn = useAuthStore.getState().isLoggedIn
+    
+    
+    // useEffect(()=>{
+    //     if(isLoggedIn) navigate({
+    //         to:"/dashboard",
+    //         replace:true
+    //     }) 
+    // },[])
 
     const howToRef = useRef<HTMLDivElement | null>(null);
     const featureRef = useRef<HTMLDivElement | null>(null);
@@ -30,8 +44,7 @@ export function Index() {
 
             <div className="place-items-center grid gap-4 font-fredoka px-16 max-w-screen">
 
-                {!isLoggedIn && (
-                    <>
+                
                         <LandingArea />
                         <div className={"grid gap-96"}>
 
@@ -49,9 +62,9 @@ export function Index() {
 
                         </div>
                         <Footer />
-                    </>
+              
 
-                )}
+                
 
 
 
@@ -60,3 +73,4 @@ export function Index() {
 
     )
 }
+

@@ -25,7 +25,7 @@ if (!rootElement.innerHTML) {
     root.render(
         <StrictMode>
             <div className="bg-gray-200 min-h-screen">
-                <RouterProvider router={router} />
+                <RouterProvider router={router}/>
             </div>
 
         </StrictMode>,
