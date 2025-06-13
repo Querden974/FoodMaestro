@@ -1,10 +1,13 @@
-import LoginForm from "@/features/Login/component/LoginForm.tsx"
-import RegisterForm from "@/features/Register/component/RegisterForm.tsx"
-import AlertDialog from "@/components/AlertDialog"
-import {useState} from "react"
+import LandingArea from "@/features/Home/component/LandingArea.tsx";
+import HowToUseArea from "@/features/Home/component/HowToUseArea.tsx";
+import AllFeaturesArea from "@/features/Home/component/AllFeaturesArea.tsx";
+import FaqArea from "@/features/Home/component/FaqArea.tsx";
+import Footer from "@/features/Home/component/Footer.tsx";
+import NavBar from "@/features/Home/component/NavBar.tsx";
+
+import {useRef} from "react";
 
 import {useAuthStore} from "@/features/Login/store/useAuthStore.ts";
-import {Button} from "@/components/ui/button.tsx";
 
 
 export const Route = createFileRoute({
@@ -12,58 +15,48 @@ export const Route = createFileRoute({
 })
 
 export function Index() {
-    const [dialogOpen, setDialogOpen] = useState<string>("")
+
     const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
-    const username = useAuthStore((state) => state.username);
-    const doLogout = useAuthStore((state) => state.logout);
+
+    const howToRef = useRef<HTMLDivElement | null>(null);
+    const featureRef = useRef<HTMLDivElement | null>(null);
+    const faqRef = useRef<HTMLDivElement | null>(null);
+
 
 
     return (
-        <div className="place-items-center grid gap-4">
+        <>
+            <NavBar  />
 
-            {!isLoggedIn && (
-                <>
-                    <h3 className={"uppercase font-bold text-3xl"}>Welcome to Food Maestro</h3>
-                    <div className={"grid grid-flow-col grid-cols-2 gap-2"}>
+            <div className="place-items-center grid gap-4 font-fredoka px-16 max-w-screen">
 
-                        <AlertDialog
-                            buttonLabel={"Login"}
-                            title={"Login"}
-                            description={"Enter your credentials to log into your Food Maestro account."}
-                            component={<LoginForm/>}
-                            variants={"secondary"}
-                            setDialogOpen={setDialogOpen}
-                            isOpen={dialogOpen === "Login"}
-                            redirectTo={"Register"}
+                {!isLoggedIn && (
+                    <>
+                        <LandingArea />
+                        <div className={"grid gap-96"}>
 
+                            <div ref={howToRef} id={"howItWorks"} className={"scroll-mt-32 "}>
+                                <HowToUseArea/>
+                            </div>
 
-                        />
-                        <AlertDialog
-                            buttonLabel={"Register"}
-                            title={"Register"}
-                            description={"Please enter those required information to create your account."}
-                            component={<RegisterForm/>}
-                            setDialogOpen={setDialogOpen}
-                            isOpen={dialogOpen === "Register"}
-                            redirectTo={"Login"}
+                            <div ref={featureRef} id={"features"} className={"scroll-mt-32 "}>
+                                <AllFeaturesArea />
+                            </div>
 
+                            <div ref={faqRef} id={"faq"} className={"scroll-mt-32 w-full"}>
+                                <FaqArea />
+                            </div>
 
-                        />
+                        </div>
+                        <Footer />
+                    </>
+
+                )}
 
 
-                    </div>
-                </>
-            )}
 
+            </div>
+        </>
 
-            {isLoggedIn && (
-                <div className={"text-center"}>
-                    <h3 className={"uppercase font-bold text-3xl"}>Welcome back {username}</h3>
-                    <Button variant={"destructive"} onClick={() => doLogout()}>
-                        Logout
-                    </Button>
-                </div>
-            )}
-        </div>
     )
 }
