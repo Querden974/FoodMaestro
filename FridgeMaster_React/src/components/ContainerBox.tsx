@@ -1,6 +1,7 @@
+
 import {
     Table,
-    TableBody,
+    TableBody, TableCaption,
     TableCell,
     TableHead,
     TableHeader,
@@ -21,7 +22,7 @@ export default function ContainerBox({items}:{items?: ContainerFoodType[]}) {
                 </TableRow>
             </TableHeader>
             <TableBody>
-                { items && items.map((item:ContainerFoodType, index) => (
+                { items && items.map((item, index) => (
                     <TableRow key={index}>
                         <TableCell className="font-medium">{item.foodFactItem.productName}</TableCell>
                         <TableCell>{item.foodFactItem.brand}</TableCell>
@@ -32,8 +33,10 @@ export default function ContainerBox({items}:{items?: ContainerFoodType[]}) {
                         </TableCell>
                     </TableRow>
                 ))}
-
             </TableBody>
+            { items && items.length === 0 && (
+                <TableCaption>No food items in this container</TableCaption>
+            )}
         </Table>
     )
 }

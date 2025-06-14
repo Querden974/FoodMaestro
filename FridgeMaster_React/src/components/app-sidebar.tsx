@@ -23,8 +23,10 @@ import {
   SidebarHeader,
   SidebarRail,
 } from "@/components/ui/sidebar"
+import {useContainerStore} from "@/shared/store/useContainerStore.ts";
 
 const {username, email} = useAuthStore.getState();
+const {containers} = useContainerStore.getState();
 
 // This is sample data.
 const data = {
@@ -56,20 +58,11 @@ const data = {
       url: "#",
       icon: Refrigerator,
       isActive: true,
-      items: [
-        {
-          title: "Container 1",
-          url: "#",
-        },
-        {
-          title: "Container 2",
-          url: "#",
-        },
-        {
-          title: "Container 3",
-          url: "#",
-        },
-      ],
+        items: containers.map((container) => ({
+            title: container.containerName,
+            url: `#/containers/${container.id}`,
+        })),
+
     },
     {
       title: "Recipes",
