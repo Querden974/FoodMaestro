@@ -27,7 +27,7 @@ if (!rootElement.innerHTML) {
         <StrictMode>
             <ThemeProvider>
 
-                <div className="bg-gray-200 min-h-screen">
+                <div className="min-h-screen">
                     <RouterProvider router={router}/>
                 </div>
 

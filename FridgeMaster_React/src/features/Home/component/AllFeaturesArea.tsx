@@ -10,7 +10,7 @@ export default function AllFeaturesArea() {
 
     const featuresPlaceholder = () => {
         return Array.from({ length: 8 }, (_, i) => (
-            <Card className="" key={i}>
+            <Card className="bg-foreground/50" key={i}>
                     <CardHeader>
                         <CardTitle>Feature {i + 1}</CardTitle>
                         <CardDescription>Descritpion</CardDescription> 

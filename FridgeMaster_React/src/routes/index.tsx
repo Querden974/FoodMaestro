@@ -5,13 +5,15 @@ import FaqArea from "@/features/Home/component/FaqArea.tsx";
 import Footer from "@/features/Home/component/Footer.tsx";
 import NavBar from "@/features/Home/component/NavBar.tsx";
 
+import {useInView} from "react-intersection-observer";
+
 import { useRouter } from "@tanstack/react-router";
 import {useRef, useEffect} from "react";
+import {ArrowUp} from "lucide-react";
 
-import {useAuthStore} from "@/features/Login/store/useAuthStore.ts";
-import { useNavigate } from "@tanstack/react-router";
 
 import { showToast } from "@/components/ToastInfo";
+import {Button} from "@/components/ui/button.tsx";
 
 
 export const Route = createFileRoute({
@@ -21,21 +23,17 @@ export const Route = createFileRoute({
 
 export function Index() {
 
-    const navigate = useNavigate();
-    const isLoggedIn = useAuthStore.getState().isLoggedIn
+    const {ref, inView, entry} = useInView({
+        threshold: 1,
+    })
+    console.log("In view:", inView, entry);
     const {message, icon} = useRouter().state.location.state;
+
 
     useEffect(() => {
         if(message && icon) showToast(message, icon);
     }, [message]);
 
-
-    // useEffect(()=>{
-    //     if(isLoggedIn) navigate({
-    //         to:"/dashboard",
-    //         replace:true
-    //     }) 
-    // },[])
 
     const howToRef = useRef<HTMLDivElement | null>(null);
     const featureRef = useRef<HTMLDivElement | null>(null);
@@ -44,13 +42,16 @@ export function Index() {
 
 
     return (
-        <>
-            <NavBar  />
+        <div className={"relative w-full"}>
 
-            <div className="place-items-center grid gap-4 font-fredoka px-16 max-w-screen">
+            <div ref={ref}>
+                <NavBar  />
+            </div>
+            <div className="place-items-center grid gap-4 font-fredoka px-16 max-w-screen relative">
 
-                
-                        <LandingArea />
+
+
+                <LandingArea />
                         <div className={"grid gap-96"}>
 
                             <div ref={howToRef} id={"howItWorks"} className={"scroll-mt-32 "}>
@@ -67,14 +68,27 @@ export function Index() {
 
                         </div>
                         <Footer />
-              
 
-                
+
+
 
 
 
             </div>
-        </>
+            {!inView && (
+
+                    <div className={"fixed bottom-16 right-16 z-50 transition duration-300 ease-in-out"}>
+                        <Button variant={"ghost"} className={"rounded-full border size-12 bg-primary cursor-pointer"} onClick={() => {
+                            window.scrollTo({top: 0, behavior: "smooth"})
+                        }}>
+                            <ArrowUp className={"size-8"}/>
+                        </Button>
+                    </div>
+
+
+            )}
+
+        </div>
 
     )
 }
