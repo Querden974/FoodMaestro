@@ -10,7 +10,7 @@ export default function AllFeaturesArea() {
 
     const featuresPlaceholder = () => {
         return Array.from({ length: 8 }, (_, i) => (
-            <Card className="">
+            <Card className="" key={i}>
                     <CardHeader>
                         <CardTitle>Feature {i + 1}</CardTitle>
                         <CardDescription>Descritpion</CardDescription> 
@@ -29,31 +29,7 @@ export default function AllFeaturesArea() {
 
                 {featuresPlaceholder()}
 
-                {/* <div className={"flex flex-col gap-2 bg-slate-300 p-4 rounded-xl"}>
-                    <h5 className={"text-2xl"}>1. Add your food</h5>
-                </div>
-                <div className={"flex flex-col gap-2 bg-slate-300 p-4 rounded-xl"}>
-                    <h5 className={"text-2xl"}>2. Track your food</h5>
-                </div>
-                <div className={"flex flex-col gap-2 bg-slate-300 p-4 rounded-xl"}>
-                    <h5 className={"text-2xl"}>3. Save money</h5>
-                </div>
-                <div className={"flex flex-col gap-2 bg-slate-300 p-4 rounded-xl"}>
-                    <h5 className={"text-2xl"}>3. Save money</h5>
-                </div>
 
-                <div className={"flex flex-col gap-2 bg-slate-300 p-4 rounded-xl"}>
-                    <h5 className={"text-2xl"}>1. Add your food</h5>
-                </div>
-                <div className={"flex flex-col gap-2 bg-slate-300 p-4 rounded-xl"}>
-                    <h5 className={"text-2xl"}>2. Track your food</h5>
-                </div>
-                <div className={"flex flex-col gap-2 bg-slate-300 p-4 rounded-xl"}>
-                    <h5 className={"text-2xl"}>3. Save money</h5>
-                </div>
-                <div className={"flex flex-col gap-2 bg-slate-300 p-4 rounded-xl"}>
-                    <h5 className={"text-2xl"}>3. Save money</h5>
-                </div> */}
             </div>
         </div>
     )

@@ -1,6 +1,10 @@
 import { useNavigate } from "@tanstack/react-router"
+import DashboardPanel  from "@/components/dashboardPanel"
 
 import { useAuthStore } from "@/features/Login/store/useAuthStore"
+import {useEffect} from "react";
+
+
 
 
 export const Route = createFileRoute({
@@ -11,15 +15,20 @@ function RouteComponent() {
   const navigate = useNavigate();
   const isLoggedIn = useAuthStore((s) => s.isLoggedIn)
 
-  if (!isLoggedIn) navigate({
-    from:"/dashboard",
-    to:"/",
-    state:{
-      message:"You mus be logged in"
-    }
-  })
-  
+  useEffect(() => {
+    if (!isLoggedIn) navigate({
+
+      to:"/",
+      state:{
+        icon:"error",
+        message:"You must be logged in"
+      }
+    })
+  }, [isLoggedIn]);
+
   return (
-    <div>😑</div>
+
+
+      <DashboardPanel />
   )
 }

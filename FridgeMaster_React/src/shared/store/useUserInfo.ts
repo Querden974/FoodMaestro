@@ -1,4 +1,5 @@
 import {create} from "zustand";
+import { persist } from "zustand/middleware";
 
 export interface UserInfoType {
     firstName: string;
@@ -9,11 +10,35 @@ export interface UserInfoType {
     clearData: () => void;
 }
 
-export const useUserInfo = create<UserInfoType>((set) => ({
-    firstName:"",
-    lastName:"",
-    birthday:new Date(),
-    isFirstLogin: undefined,
-    fetchData: (firstname:string,lastname:string,birthday:Date, isFirstLogin:boolean) => set({firstName:firstname,lastName:lastname, birthday:birthday, isFirstLogin:isFirstLogin}),
-    clearData: () => set({firstName:"",lastName:"", birthday:new Date(), isFirstLogin:undefined})
-}));
+// export const useUserInfo = create<UserInfoType>((set) => ({
+//     firstName:"",
+//     lastName:"",
+//     birthday:new Date(),
+//     isFirstLogin: undefined,
+//     fetchData: (firstname:string,lastname:string,birthday:Date, isFirstLogin:boolean) => set({firstName:firstname,lastName:lastname, birthday:birthday, isFirstLogin:isFirstLogin}),
+//     clearData: () => set({firstName:"",lastName:"", birthday:new Date(), isFirstLogin:undefined})
+// }));
+
+export const useUserInfo = create<UserInfoType>()(
+    persist(
+        (set) => ({
+            firstName: "",
+            lastName: "",
+            birthday: new Date(),
+            isFirstLogin: undefined,
+            fetchData: (firstname:string, lastname:string, birthday:Date, isFirstLogin:boolean) => set({ firstName: firstname, lastName: lastname, birthday, isFirstLogin }),
+            clearData: () => set({ firstName: "", lastName: "", birthday: new Date(), isFirstLogin: undefined }),
+        }),
+        {
+            name: 'user-info-storage',
+            storage:{
+                getItem: (name) => {
+                    const item = sessionStorage.getItem(name);
+                    return item ? JSON.parse(item) : null;
+                },
+                setItem: (name, value) => sessionStorage.setItem(name, JSON.stringify(value)),
+                removeItem: (name) => sessionStorage.removeItem(name),
+            }// unique name
+        }
+    )
+);

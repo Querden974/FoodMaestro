@@ -11,6 +11,7 @@ import {useRef, useEffect} from "react";
 import {useAuthStore} from "@/features/Login/store/useAuthStore.ts";
 import { useNavigate } from "@tanstack/react-router";
 
+import { showToast } from "@/components/ToastInfo";
 
 
 export const Route = createFileRoute({
@@ -19,12 +20,16 @@ export const Route = createFileRoute({
 
 
 export function Index() {
-    const location = useRouter().state.location.state.message;
-    console.log(location)
+
     const navigate = useNavigate();
     const isLoggedIn = useAuthStore.getState().isLoggedIn
-    
-    
+    const {message, icon} = useRouter().state.location.state;
+
+    useEffect(() => {
+        if(message && icon) showToast(message, icon);
+    }, [message]);
+
+
     // useEffect(()=>{
     //     if(isLoggedIn) navigate({
     //         to:"/dashboard",

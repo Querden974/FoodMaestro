@@ -1,6 +1,7 @@
 import { create } from "zustand";
+import { persist } from "zustand/middleware";
 
-type FoodType = {
+export type FoodType = {
     id:number,
     code:string,
     brand:string,
@@ -39,17 +40,38 @@ interface Container {
     containerFood: ContainerFoodType[];
 }
 export type ContainerType = {
-    Containers: Container[]
+    containers: Container[]
     fetchContainers: (data:Container[]) => void;
     clearContainers: () => void;
 }
 
-export const useContainerStore = create<ContainerType>((set) => ({
+// export const useContainerStore = create<ContainerType>((set) => ({
+//
+//     Containers:[],
+//     fetchContainers: (data:Container[]) => set({ Containers: data }),
+//     clearContainers: () => set({ Containers: [] }),
+// }));
 
-    Containers:[],
-    fetchContainers: (data:Container[]) => set({ Containers: data }),
-    clearContainers: () => set({ Containers: [] }),
-}));
+export const useContainerStore = create<ContainerType>()(
+    persist(
+        (set) => ({
+            containers: [],
+            fetchContainers: (data: Container[]) => set({ containers: data }),
+            clearContainers: () => set({ containers: [] }),
+        }),
+        {
+            name: 'container-storage',
+            storage:{
+                getItem: (name) => {
+                    const item = sessionStorage.getItem(name);
+                    return item ? JSON.parse(item) : null;
+                },
+                setItem: (name, value) => sessionStorage.setItem(name, JSON.stringify(value)),
+                removeItem: (name) => sessionStorage.removeItem(name),
+            }// unique name
+        }
+    )
+);
 
 const containerStore = useContainerStore.getState();
 export default containerStore;

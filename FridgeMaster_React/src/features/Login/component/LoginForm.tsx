@@ -45,10 +45,6 @@ export default function LoginForm() {
 
                await doLogin(value, login, userInfo, containers, redirect )
 
-            
-            
-            
-            
             // alert(JSON.stringify(value, null, 2))
         },
     })
