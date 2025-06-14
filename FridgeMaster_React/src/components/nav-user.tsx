@@ -103,28 +103,28 @@ export function NavUser({
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <DropdownMenuItem onClick={() => setTheme(theme === "light" ? "dark" : "light")}>
+              <DropdownMenuItem className={"cursor-pointer"} onClick={() => setTheme(theme === "light" ? "dark" : "light")}>
                 { theme === "light" ? <Moon className="size-4" /> : <Sun className="size-4" />}
                 Switch to {theme === "light" ? "Dark" : "Light"} Mode
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <DropdownMenuItem>
+              <DropdownMenuItem className={"cursor-pointer"}>
                 <BadgeCheck />
                 Account
               </DropdownMenuItem>
-              <DropdownMenuItem>
+              <DropdownMenuItem className={"cursor-pointer"}>
                 <CreditCard />
                 Billing
               </DropdownMenuItem>
-              <DropdownMenuItem>
+              <DropdownMenuItem className={"cursor-pointer"}>
                 <Bell />
                 Notifications
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={() => handleLogout()}>
+            <DropdownMenuItem variant={"destructive"} className={"cursor-pointer "} onClick={() => handleLogout()}>
               <LogOut />
               Log out
             </DropdownMenuItem>
@@ -198,28 +198,28 @@ export function NavUserHome({
               </DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuGroup>
-                <DropdownMenuItem onClick={() => setTheme(theme === "light" ? "dark" : "light")}>
+                <DropdownMenuItem className={"cursor-pointer"} onClick={() => setTheme(theme === "light" ? "dark" : "light")}>
                   { theme === "light" ? <Moon className="size-4" /> : <Sun className="size-4" />}
                   Switch to {theme === "light" ? "Dark" : "Light"} Mode
                 </DropdownMenuItem>
               </DropdownMenuGroup>
               <DropdownMenuSeparator />
               <DropdownMenuGroup>
-                <DropdownMenuItem>
+                <DropdownMenuItem  className={"cursor-pointer"}>
                   <BadgeCheck />
                   Account
-                </DropdownMenuItem>
-                <DropdownMenuItem>
+                </DropdownMenuItem >
+                <DropdownMenuItem className={"cursor-pointer"}>
                   <CreditCard />
                   Billing
-                </DropdownMenuItem>
-                <DropdownMenuItem>
+                </DropdownMenuItem >
+                <DropdownMenuItem className={"cursor-pointer"}>
                   <Bell />
                   Notifications
                 </DropdownMenuItem>
               </DropdownMenuGroup>
               <DropdownMenuSeparator />
-              <DropdownMenuItem onClick={() => handleLogout()}>
+              <DropdownMenuItem variant={"destructive"} className={"cursor-pointer"} onClick={() => handleLogout()}>
                 <LogOut />
                 Log out
               </DropdownMenuItem>

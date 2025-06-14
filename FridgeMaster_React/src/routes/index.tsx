@@ -77,8 +77,8 @@ export function Index() {
             </div>
             {!inView && (
 
-                    <div className={"fixed bottom-16 right-16 z-50 transition duration-300 ease-in-out"}>
-                        <Button variant={"ghost"} className={"rounded-full border size-12 bg-primary cursor-pointer"} onClick={() => {
+                    <div className={`fixed bottom-16 right-16 z-50`}>
+                        <Button variant={"ghost"} className={`rounded-full border size-12 bg-primary cursor-pointer `} onClick={() => {
                             window.scrollTo({top: 0, behavior: "smooth"})
                         }}>
                             <ArrowUp className={"size-8"}/>
