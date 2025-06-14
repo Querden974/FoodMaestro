@@ -6,7 +6,7 @@ import {
   ChevronsUpDown,
   CreditCard,
   LogOut,
-  Sparkles,
+  Moon, Sun
 } from "lucide-react"
 
 import {
@@ -29,6 +29,8 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar"
+import {useTheme} from "@/components/theme-provider";
+
 
 import { useAuthStore } from "@/features/Login/store/useAuthStore.ts";
 import { useNavigate } from "@tanstack/react-router";
@@ -59,6 +61,7 @@ export function NavUser({
         },
         });
     };
+    const {theme, setTheme} = useTheme();
   return (
     <SidebarMenu>
       <SidebarMenuItem>
@@ -100,9 +103,9 @@ export function NavUser({
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <DropdownMenuItem>
-                <Sparkles />
-                Upgrade to Pro
+              <DropdownMenuItem onClick={() => setTheme(theme === "light" ? "dark" : "light")}>
+                { theme === "light" ? <Moon className="size-4" /> : <Sun className="size-4" />}
+                Switch to {theme === "light" ? "Dark" : "Light"} Mode
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />

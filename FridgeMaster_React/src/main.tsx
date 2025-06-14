@@ -1,6 +1,7 @@
 import { StrictMode } from 'react'
 import ReactDOM from 'react-dom/client'
 import { RouterProvider, createRouter } from '@tanstack/react-router'
+import {ThemeProvider} from "@/components/theme-provider.tsx";
 
 import "./index.css"
 
@@ -24,9 +25,14 @@ if (!rootElement.innerHTML) {
 
     root.render(
         <StrictMode>
-            <div className="bg-gray-200 min-h-screen">
-                <RouterProvider router={router}/>
-            </div>
+            <ThemeProvider>
+
+                <div className="bg-gray-200 min-h-screen">
+                    <RouterProvider router={router}/>
+                </div>
+
+            </ThemeProvider>
+
 
         </StrictMode>,
     )
