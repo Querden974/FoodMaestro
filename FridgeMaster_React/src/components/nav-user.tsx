@@ -6,7 +6,7 @@ import {
   ChevronsUpDown,
   CreditCard,
   LogOut,
-  Moon, Sun
+  Moon, Sun, LayoutDashboard
 } from "lucide-react"
 
 import {
@@ -84,7 +84,7 @@ export function NavUser({
             </SidebarMenuButton>
           </DropdownMenuTrigger>
           <DropdownMenuContent
-            className="w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg"
+            className="w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg font-fredoka"
             side={isMobile ? "bottom" : "right"}
             align="start"
             sideOffset={4}
@@ -179,7 +179,7 @@ export function NavUserHome({
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent
-                className="w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg"
+                className="w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg font-fredoka"
                 side={"bottom"}
                 align="start"
                 sideOffset={4}
@@ -196,6 +196,13 @@ export function NavUserHome({
                   </div>
                 </div>
               </DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuGroup>
+                <DropdownMenuItem className={"cursor-pointer text-primary  "} onClick={() => navigate({to: "/dashboard"})}>
+                  <LayoutDashboard className={"text-primary"} />
+                  Dashboard
+                </DropdownMenuItem >
+              </DropdownMenuGroup>
               <DropdownMenuSeparator />
               <DropdownMenuGroup>
                 <DropdownMenuItem className={"cursor-pointer"} onClick={() => setTheme(theme === "light" ? "dark" : "light")}>
