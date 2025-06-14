@@ -31,7 +31,10 @@ export function Index() {
 
 
     useEffect(() => {
-        if(message && icon) showToast(message, icon);
+        if(message && icon) showToast({
+            message: message,
+            icon: icon,
+        });
     }, [message]);
 
 

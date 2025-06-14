@@ -1,6 +1,11 @@
 import Swal from "sweetalert2";
 
-export function showToast(message: string, icon: "success" | "error" | "warning" | "info" = "info") {
+type ToastParams = {
+    message: string;
+    icon?: "success" | "error" | "warning" | "info";
+}
+
+export function showToast(params:ToastParams) {
 
     const Toast = Swal.mixin({
         toast: true,
@@ -11,8 +16,8 @@ export function showToast(message: string, icon: "success" | "error" | "warning"
 
     });
     Toast.fire({
-        icon: icon,
-        title: message
+        icon: params.icon,
+        title: params.message
     });
 
 }

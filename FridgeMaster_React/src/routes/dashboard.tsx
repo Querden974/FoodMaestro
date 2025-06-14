@@ -24,7 +24,7 @@ function RouteComponent() {
         message:"You must be logged in"
       }
     })
-  }, [isLoggedIn]);
+  }, []);
 
   return (
 

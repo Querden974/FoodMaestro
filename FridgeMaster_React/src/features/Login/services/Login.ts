@@ -1,6 +1,7 @@
 import type {AuthStateType} from "@/features/Login/store/useAuthStore.ts";
 import type {UserInfoType} from "@/shared/store/useUserInfo.ts";
 import type {ContainerType} from "@/shared/store/useContainerStore.ts";
+import {showToast} from "@/components/ToastInfo";
 
 export async function doLogin (form:object,
                                setAuth: AuthStateType["login"] ,
@@ -33,6 +34,10 @@ export async function doLogin (form:object,
                 resData.data.userInfo.isFirstLoggin
             );
             setContainer(resData.container);
+            showToast({
+                message: "You have been logged in",
+                icon: "success",
+                });
             redirect();
 
             
