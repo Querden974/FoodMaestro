@@ -26,7 +26,7 @@ export function Index() {
     const {ref, inView, entry} = useInView({
         threshold: 1,
     })
-    console.log("In view:", inView, entry);
+
     const {message, icon} = useRouter().state.location.state;
 
 

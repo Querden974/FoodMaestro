@@ -4,6 +4,8 @@ import {Input} from "@/components/ui/input.tsx"
 import {Button} from "@/components/ui/button.tsx"
 import {doLogin} from "@/features/Login/services/Login.ts";
 
+
+
 import {useAuthStore} from "@/features/Login/store/useAuthStore.ts";
 import {useContainerStore} from "@/shared/store/useContainerStore.ts";
 import {useUserInfo} from "@/shared/store/useUserInfo.ts";
@@ -11,6 +13,7 @@ import {useUserInfo} from "@/shared/store/useUserInfo.ts";
 import { useNavigate } from "@tanstack/react-router";
 
 import { z } from "zod";
+import {useEffect, useCallback} from "react";
 
 
 type LoginFormType = {
@@ -21,7 +24,7 @@ type LoginFormType = {
 const loginFormSchema = z
     .object({
         username: z.string().min(1, "Username is required"),
-        password: z.string().min(6, "Password is required"),
+        password: z.string().min(6, "Password need at least 6 characters"),
     })
 
 
@@ -38,27 +41,43 @@ export default function LoginForm() {
             username: '',
             password: '',
         } as LoginFormType,
-        validators:{
-            onChange: loginFormSchema
-        },
+
         onSubmit: async ( {value}) => {
 
                await doLogin(value, login, userInfo, containers, redirect )
 
-            // alert(JSON.stringify(value, null, 2))
         },
     })
 
     return (
         <div className={"mt-4"}>
 
-            <form className={"grid gap-2"} onSubmit={(e)=> {
-                if(form.state.errorMap) e.preventDefault()
-                form.handleSubmit()
+            <form className={"grid gap-2"} onSubmit={async ()=> {
+                // if(form.state.errorMap) e.preventDefault()
+                await form.handleSubmit()
             }}>
 
 
-                <form.Field name="username">
+                <form.Field name="username"
+                    asyncDebounceMs={500}
+                    validators={
+                        {
+                            onChangeAsync: async ({value}) => {
+                                try {
+                                    await loginFormSchema.pick({username: true}).parseAsync({username: value});
+
+                                    return [];
+                                } catch (error) {
+                                    if (error instanceof z.ZodError) {
+                                        return error.errors.map((err) => err.message);
+                                    }
+                                    return ["Invalid input"];
+                                }
+                            }
+                        }
+                    }
+
+                >
                     {(field) => (
                         <div className="grid gap-1">
                             <Label htmlFor={"username"}>Username:</Label>
@@ -70,6 +89,7 @@ export default function LoginForm() {
                             />
                             {field.state.meta.errors.length > 0 && (
                                 <p className="text-red-500 text-sm mt-1">
+
                                     {field.state.meta.errors.map((error) =>
                                         typeof error === 'string' ? error : error?.message ?? JSON.stringify(error)
                                     ).join(", ")}
@@ -79,7 +99,25 @@ export default function LoginForm() {
                     )}
                 </form.Field>
 
-                <form.Field name="password">
+                <form.Field name="password"
+                            asyncDebounceMs={500}
+                            validators={
+                                {
+                                    onChangeAsync: async ({value}) => {
+                                        try {
+                                            await loginFormSchema.pick({password: true}).parseAsync({password: value});
+
+                                            return [];
+                                        } catch (error) {
+                                            if (error instanceof z.ZodError) {
+                                                return error.errors.map((err) => err.message);
+                                            }
+                                            return ["Invalid input"];
+                                        }
+                                    }
+                                }
+                            }
+                >
                     {(field) => (
                         <div className="grid gap-1">
                             <Label htmlFor={"password"}>Password:</Label>
@@ -87,6 +125,7 @@ export default function LoginForm() {
                                    id={"password"}
                                    value={field.state.value}
                                    placeholder={"********"}
+                                   autoComplete={""}
                                    onChange={(e) => field.handleChange(e.target.value)}
                             />
                             {field.state.meta.errors.length > 0 && (
