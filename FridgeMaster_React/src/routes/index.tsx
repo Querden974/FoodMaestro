@@ -15,6 +15,7 @@ import {ArrowUp} from "lucide-react";
 import { showToast } from "@/components/ToastInfo";
 import {Button} from "@/components/ui/button.tsx";
 
+import {motion, AnimatePresence} from "motion/react";
 
 export const Route = createFileRoute({
     component: Index,    
@@ -23,7 +24,7 @@ export const Route = createFileRoute({
 
 export function Index() {
 
-    const {ref, inView, entry} = useInView({
+    const {ref, inView} = useInView({
         threshold: 1,
     })
 
@@ -78,18 +79,35 @@ export function Index() {
 
 
             </div>
-            {!inView && (
 
-                    <div className={`fixed bottom-16 right-16 z-50`}>
-                        <Button variant={"ghost"} className={`rounded-full border size-12 bg-primary cursor-pointer `} onClick={() => {
+                <AnimatePresence initial={false}>
+
+                    {!inView && (
+                    <motion.div className={`fixed bottom-16 right-16 z-50`}
+                                initial={{ opacity: 0, scale: 0 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                exit={{ opacity: 0, scale: 0 }}
+                                transition={{
+                                    duration: 0.3,
+                                    scale: { type: "spring", visualDuration: 0.4, bounce: 0.5},
+                                    ease: "easeInOut" }}
+
+
+
+                    >
+                        <Button variant={"ghost"} className={`rounded-full border size-12 bg-foreground cursor-pointer `} onClick={() => {
                             window.scrollTo({top: 0, behavior: "smooth"})
                         }}>
-                            <ArrowUp className={"size-8"}/>
+                            <ArrowUp className={"size-8 text-background"}/>
                         </Button>
-                    </div>
+                    </motion.div>
+                    )}
+
+                </AnimatePresence>
 
 
-            )}
+
+
 
         </div>
 
