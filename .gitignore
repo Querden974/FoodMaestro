@@ -53,5 +53,8 @@ ios
 lazygit
 .env
 
+
+
 docker-compose.yaml
 dockerfile
+FridgeMaster_React/.tanstack/tmp
