@@ -1,34 +1,55 @@
-import { useNavigate } from "@tanstack/react-router"
-import DashboardPanel  from "@/components/dashboardPanel"
-
-import { useAuthStore } from "@/features/Login/store/useAuthStore"
-import {useEffect} from "react";
-
-
-
+import {useState} from "react";
 
 export const Route = createFileRoute({
-  component: RouteComponent,
+  component: DefaultDashboard,
 })
 
-function RouteComponent() {
-  const navigate = useNavigate();
-  const isLoggedIn = useAuthStore((s) => s.isLoggedIn)
+import {useContainerStore} from "@/shared/store/useContainerStore.ts";
+import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/components/ui/card.tsx";
+import {ContainerBoxMini} from "@/components/ContainerBox.tsx";
+import {Calendar} from "@/components/ui/calendar.tsx";
 
-  useEffect(() => {
-    if (!isLoggedIn) navigate({
-
-      to:"/",
-      state:{
-        icon:"error",
-        message:"You must be logged in"
-      }
-    })
-  }, []);
-
+export default function DefaultDashboard() {
+  const { containers } = useContainerStore();
+  const [date, setDate] = useState<Date | undefined>(new Date())
   return (
+      <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
+        <div className="grid w-full h-2/3 gap-4 md:grid-cols-3">
+          {containers && containers.map((container, index) => (
+              <Card key={index} className={"bg-muted/75"}>
+                <CardHeader>
+                  <CardTitle>{container.containerName}</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <ContainerBoxMini items={container.containerFood}/>
+                </CardContent>
+              </Card>
+          ))}
 
 
-      <DashboardPanel />
+
+        </div>
+        <div className="bg-muted/50 f-full flex-1 rounded-xl md:min-h-min w-full" >
+          <div className={"flex bg-muted/75 rounded-xl w-1/2 gap-0"}>
+            <Calendar
+                mode="single"
+                selected={date}
+                onSelect={setDate}
+                className="rounded-l-xl border bg-muted/75 mx-0 "
+            />
+            <Card className={"w-full bg-muted/75 rounded-none rounded-r-xl shadow-none"}>
+              <CardHeader>
+                <CardTitle>Expires Soon</CardTitle>
+                <CardDescription>Pay attention to those foods</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p>Card Content</p>
+              </CardContent>
+
+            </Card>
+          </div>
+
+        </div>
+      </div>
   )
 }

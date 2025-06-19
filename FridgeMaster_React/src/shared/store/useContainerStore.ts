@@ -45,12 +45,7 @@ export type ContainerType = {
     clearContainers: () => void;
 }
 
-// export const useContainerStore = create<ContainerType>((set) => ({
-//
-//     Containers:[],
-//     fetchContainers: (data:Container[]) => set({ Containers: data }),
-//     clearContainers: () => set({ Containers: [] }),
-// }));
+
 
 export const useContainerStore = create<ContainerType>()(
     persist(

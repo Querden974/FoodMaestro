@@ -60,7 +60,8 @@ const data = {
       isActive: true,
         items: containers.map((container) => ({
             title: container.containerName,
-            url: `#/containers/${container.id}`,
+            url: `/dashboard/container/${container.id}`,
+            isActive: true,
         })),
 
     },
