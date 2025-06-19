@@ -15,7 +15,7 @@ export default function HowToUseArea() {
                 <Card className="bg-foreground/50">
                     <CardHeader>
                         <CardTitle>1. Add your food</CardTitle>
-                        <CardDescription>Add your food to the app with the expiry date.</CardDescription> 
+                        <CardDescription className={"text-accent"}>Add your food to the app with the expiry date.</CardDescription>
                     </CardHeader>
                     <CardContent>
                         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae placeat temporibus eligendi nobis at illum, tempora asperiores in? Perspiciatis eaque minus aperiam libero.</p>                    
@@ -25,7 +25,7 @@ export default function HowToUseArea() {
                 <Card className="bg-foreground/50">
                     <CardHeader>
                         <CardTitle>2. Track your food</CardTitle>
-                        <CardDescription>Track your food and see when it expires.</CardDescription> 
+                        <CardDescription className={"text-accent"}>Track your food and see when it expires.</CardDescription>
                     </CardHeader>
                     <CardContent>
                         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae placeat temporibus eligendi nobis at illum, tempora asperiores in? Perspiciatis eaque minus aperiam libero.</p>                    
@@ -35,7 +35,7 @@ export default function HowToUseArea() {
                 <Card className="bg-foreground/50">
                     <CardHeader>
                         <CardTitle>3. Save money</CardTitle>
-                        <CardDescription>Save money by not wasting food.</CardDescription> 
+                        <CardDescription className={"text-accent"}>Save money by not wasting food.</CardDescription>
                     </CardHeader>
                     <CardContent>
                         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae placeat temporibus eligendi nobis at illum, tempora asperiores in? Perspiciatis eaque minus aperiam libero.</p>                    

@@ -13,7 +13,6 @@ import {useUserInfo} from "@/shared/store/useUserInfo.ts";
 import { useNavigate } from "@tanstack/react-router";
 
 import { z } from "zod";
-import {useEffect, useCallback} from "react";
 
 
 type LoginFormType = {
@@ -91,7 +90,7 @@ export default function LoginForm() {
                                 <p className="text-red-500 text-sm mt-1">
 
                                     {field.state.meta.errors.map((error) =>
-                                        typeof error === 'string' ? error : error?.message ?? JSON.stringify(error)
+                                        JSON.stringify(error).replace(/"/g, "")
                                     ).join(", ")}
                                 </p>
                             )}
@@ -131,7 +130,7 @@ export default function LoginForm() {
                             {field.state.meta.errors.length > 0 && (
                                 <p className="text-red-500 text-sm mt-1">
                                     {field.state.meta.errors.map((error) =>
-                                        typeof error === 'string' ? error : error?.message ?? JSON.stringify(error)
+                                        JSON.stringify(error).replace(/"/g, "")
                                     ).join(", ")}
                                 </p>
                             )}

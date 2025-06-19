@@ -31,7 +31,7 @@ export default function LandingArea() {
                             buttonLabel={"Register"}
                             title={"Register"}
                             description={"Please enter those required information to create your account."}
-                            component={<RegisterForm/>}
+                            component={<RegisterForm setDialogOpen={setDialogOpen}/>}
                             setDialogOpen={setDialogOpen}
                             isOpen={dialogOpen === "Register"}
                             redirectTo={"Login"}/>

@@ -51,6 +51,7 @@ export function Index() {
             <div ref={ref}>
                 <NavBar  />
             </div>
+
             <div className="place-items-center grid gap-4 font-fredoka px-16 max-w-screen relative">
 
 
@@ -72,11 +73,6 @@ export function Index() {
 
                         </div>
                         <Footer />
-
-
-
-
-
 
             </div>
 
@@ -106,11 +102,7 @@ export function Index() {
                 </AnimatePresence>
 
 
-
-
-
         </div>
-
     )
 }
 
