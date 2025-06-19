@@ -51,7 +51,7 @@ namespace FridgeMaster_API.Controllers
             {
                 var query = await _db.Containers
                     .Include(c => c.User)
-                    .Include(cf => cf.ContainerFood)
+                    .Include(cf => cf.ContainerFood).ThenInclude(f=>f.FoodFactItem)
                     .FirstAsync(c => c.Id == id);
                 var result = _mapper.Map<ContainerRequest>(query);
                 return Ok(result);
