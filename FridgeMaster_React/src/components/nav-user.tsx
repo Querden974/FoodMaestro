@@ -35,6 +35,7 @@ import {useTheme} from "@/components/theme-provider";
 import { useAuthStore } from "@/features/Login/store/useAuthStore.ts";
 import { useNavigate } from "@tanstack/react-router";
 import {Button} from "@/components/ui/button.tsx";
+import {useState} from "react";
 
 
 
@@ -144,7 +145,7 @@ export function NavUserHome({
     avatar: string
   }
 }) {
-
+ const [isDisabled, setIsDisabled] = useState(false);
   const logout = useAuthStore.getState().logout
   const navigate = useNavigate();
   const handleLogout = () => {
@@ -226,10 +227,19 @@ export function NavUserHome({
                 </DropdownMenuItem>
               </DropdownMenuGroup>
               <DropdownMenuSeparator />
-              <DropdownMenuItem variant={"destructive"} className={"cursor-pointer"} onClick={() => handleLogout()}>
-                <LogOut />
-                Log out
-              </DropdownMenuItem>
+
+                <DropdownMenuItem variant={"destructive"}
+                                  className={"cursor-pointer"}
+                                  disabled={isDisabled}
+                                  onClick={() => {
+                                    handleLogout()
+                                    setIsDisabled(true);
+                                  }}>
+                  <LogOut />
+                  Log out
+                </DropdownMenuItem>
+
+
             </DropdownMenuContent>
           </DropdownMenu>
 
