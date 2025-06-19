@@ -29,7 +29,8 @@ const loginFormSchema = z
 
 export default function LoginForm() {
     const navigate = useNavigate();
-    const redirect = () => {navigate({
+    const redirect = () => {
+            navigate({
                 to:"/dashboard"
             })}
     const login = useAuthStore((s) => s.login);
@@ -42,7 +43,7 @@ export default function LoginForm() {
         } as LoginFormType,
 
         onSubmit: async ( {value}) => {
-
+                console.log(value)
                await doLogin(value, login, userInfo, containers, redirect )
 
         },
@@ -51,8 +52,8 @@ export default function LoginForm() {
     return (
         <div className={"mt-4"}>
 
-            <form className={"grid gap-2"} onSubmit={async ()=> {
-                // if(form.state.errorMap) e.preventDefault()
+            <form className={"grid gap-2"} onSubmit={async (e)=> {
+                if(form.state.errorMap) e.preventDefault()
                 await form.handleSubmit()
             }}>
 

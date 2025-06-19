@@ -43,11 +43,6 @@ export async function doLogin (form:object,
             
             console.log(resData);
 
-
-
-
-
-
         }
 
     }catch (err){
