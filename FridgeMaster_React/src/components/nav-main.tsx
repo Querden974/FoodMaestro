@@ -36,8 +36,8 @@ export function NavMain({
     <SidebarGroup>
 
       <SidebarMenu>
-        {items.map((item) => (
-            <>
+        {items.map((item, index) => (
+            <div key={index}>
               {item.items && item.items.length > 0 ? (
                   <Collapsible
                       key={item.title}
@@ -82,7 +82,7 @@ export function NavMain({
               }
 
 
-           </>
+           </div>
 
         ))}
         </SidebarMenu>
