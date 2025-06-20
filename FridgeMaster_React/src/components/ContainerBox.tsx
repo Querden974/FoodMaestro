@@ -58,6 +58,7 @@ export function ContainerBox({items, setEditing, setEditedItem, editedItem, isEd
 
 
                         <TableRow key={index}
+                                  className={"h-12"}
                                   onDoubleClick={() => {
                                       setEditedItem(index)
                                       setEditing(true);

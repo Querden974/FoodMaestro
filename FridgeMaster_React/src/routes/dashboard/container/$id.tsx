@@ -4,12 +4,13 @@ import {ContainerBox} from "@/components/ContainerBox.tsx";
 import {type Container, useContainerStore} from "@/shared/store/useContainerStore.ts";
 import {useAuthStore} from "@/features/Login/store/useAuthStore.ts";
 import {Button} from "@/components/ui/button.tsx";
-import {Save, Pencil} from "lucide-react";
+import {Save, Pencil, RefreshCw} from "lucide-react";
 import {motion, AnimatePresence} from "motion/react";
 import {useState} from "react";
 import { Label } from "@/components/ui/label";
 import {Input} from "@/components/ui/input.tsx";
 import {EditContainerName} from "@/routes/dashboard/container/-services/EditContainerName"
+import {FetchUserContainer} from "@/routes/dashboard/container/-services/FetchUserContainer.ts";
 
 export const Route = createFileRoute({
     component: ContainerShow,
@@ -23,6 +24,9 @@ export const Route = createFileRoute({
 function ContainerShow() {
     const { id } = useLoaderData({from: "/dashboard/container/$id"});
     const user = useAuthStore((state) => state.username);
+    const userId = useAuthStore((s) => s.id)
+    const flushContainers = useContainerStore(s => s.clearContainers)
+    const fetchContainers = useContainerStore(s => s.fetchContainers)
 
 
     const [isEditing, setIsEditing] = useState(false);
@@ -78,7 +82,7 @@ function ContainerShow() {
 
                         </CardTitle>
                         <AnimatePresence>
-                            {isEditing &&
+                            {isEditing ?
                             <motion.div
                                 initial={{ opacity: 0, scale: 0.8 }}
                                 animate={{ opacity: 1, scale: 1 }}
@@ -96,6 +100,23 @@ function ContainerShow() {
                                     <Save className={"size-6"} />
                                 </Button>
                             </motion.div>
+                                : <motion.div
+                                    initial={{ opacity: 0, scale: 0.8 }}
+                                    animate={{ opacity: 1, scale: 1 }}
+                                    exit={{ opacity: 0, scale: 0.8 }}
+                                    transition={{ duration: 0.2 }}
+                                    className={"absolute right-6"}
+                                >
+                                    <Button variant={"secondary"} className={"size-auto rounded-full aspect-square cursor-pointer"}
+                                            onClick={async () => {
+                                                const data = await FetchUserContainer(userId)
+                                                flushContainers()
+                                                if(data) fetchContainers(data)
+                                            }}
+                                    >
+                                        <RefreshCw className={"size-6"} />
+                                    </Button>
+                                </motion.div>
                             }
                         </AnimatePresence>
 
