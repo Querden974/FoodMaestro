@@ -11,6 +11,7 @@ import { Label } from "@/components/ui/label";
 import {Input} from "@/components/ui/input.tsx";
 import {EditContainerName} from "@/routes/dashboard/container/-services/EditContainerName"
 import {FetchUserContainer} from "@/routes/dashboard/container/-services/FetchUserContainer.ts";
+import AddFoodDialog from "@/routes/dashboard/container/AddFoodDialog.tsx";
 
 export const Route = createFileRoute({
     component: ContainerShow,
@@ -42,6 +43,7 @@ function ContainerShow() {
         }
         setTitleEditing(prevState => !prevState)
     }
+
     return(
         <div className="p-2 flex-1 flex flex-row gap-4">
 
@@ -105,8 +107,9 @@ function ContainerShow() {
                                     animate={{ opacity: 1, scale: 1 }}
                                     exit={{ opacity: 0, scale: 0.8 }}
                                     transition={{ duration: 0.2 }}
-                                    className={"absolute right-6"}
+                                    className={"absolute flex right-6 gap-2"}
                                 >
+                                    <AddFoodDialog />
                                     <Button variant={"secondary"} className={"size-auto rounded-full aspect-square cursor-pointer"}
                                             onClick={async () => {
                                                 const data = await FetchUserContainer(userId)
