@@ -26,7 +26,7 @@ namespace FridgeMaster_API.Request
         public int FoodId { get; set; }
 
         [JsonIgnore]
-        public FoodFactsItem FoodFactItem { get; set; }
+        public FoodFactsItem? FoodFactItem { get; set; }
         public float Quantity { get; set; } = 1;
         public string Unit { get; set; } = "portion";
 

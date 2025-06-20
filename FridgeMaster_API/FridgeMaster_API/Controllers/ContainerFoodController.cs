@@ -87,16 +87,16 @@ namespace FridgeMaster_API.Controllers
         [HttpPost]
         public async Task<ActionResult<ContainerFood>> CreateContainerFood([FromBody] ContainerFoodCreationRequest model)
         {
-            var itemExist = _db.FoodFactsItems.Any(f => f.Code == model.FoodId.ToString());
+            var itemExist = _db.FoodFactsItems.Any(f => f.Id == model.FoodId);
             if (!itemExist) return NotFound("Item not found");
 
-            var item = _db.FoodFactsItems.First(f => f.Code == model.FoodId.ToString());
+            var item = _db.FoodFactsItems.First(f => f.Id == model.FoodId);
             
             var containerFood = new ContainerFood
             {
                 ContainerId = model.ContainerId,
                 FoodId = model.Id,
-                
+                FoodFactItem = item,
                 Quantity = model.Quantity,
                 Unit = model.Unit,
                 UpdatedAt = DateTime.UtcNow

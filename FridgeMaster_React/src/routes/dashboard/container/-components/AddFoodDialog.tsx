@@ -8,11 +8,26 @@ import {
 } from "@/components/ui/dialog"
 import {Plus, Search} from "lucide-react";
 import {Button} from "@/components/ui/button.tsx";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {Separator} from "@/components/ui/separator"
+import {useDebounce} from "@/hooks/use-debounce"
+import type {FoodType} from "@/shared/store/useContainerStore.ts";
+import {SearchItem} from "@/routes/dashboard/container/-services/SearchFoodItems"
 
 export default function AddFoodDialog() {
-    const [search, setSearch] = useState<string>("")
+    const [search, setSearch] = useState<string>("");
+    const debouncedSearch = useDebounce(search,500);
+
+    const [itemsList, setItemsList] = useState<FoodType[] | null>(null)
+
+    useEffect(() => {
+        const fetch =async () => {
+            const res = await SearchItem(debouncedSearch)
+            if (res)setItemsList(res)
+        }
+        fetch()
+
+    }, [debouncedSearch]);
     return (
         <Dialog>
             <DialogTrigger asChild>

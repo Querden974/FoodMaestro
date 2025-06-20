@@ -10,7 +10,7 @@ namespace FridgeMaster_API.Model
         public Container Container { get; set; }
         public int FoodId { get; set; }
         
-        public FoodFactsItem FoodFactItem { get; set; }
+        public FoodFactsItem? FoodFactItem { get; set; }
         public float Quantity { get; set; } = 1;
         public string Unit { get; set; } = "portion";
         
