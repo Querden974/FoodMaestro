@@ -48,8 +48,8 @@ function ContainerShow() {
                                     <div className={"p-2 cursor-pointer rounded-full hover:bg-foreground/25 transition duration-100"}
                                          onClick={async () => {
                                              if(containerInfo.containerName !== oldName) {
-                                                 if (containerInfo) await EditContainerName(containerInfo);
-                                                 setOldName(containerInfo.containerName)
+                                                 if (containerInfo) await EditContainerName({...containerInfo, containerName:containerInfo.containerName.trim()});
+                                                 setOldName(containerInfo.containerName.trim())
                                              }
                                              setTitleEditing(prevState => !prevState)
                                          }}

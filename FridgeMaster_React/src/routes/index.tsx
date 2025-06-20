@@ -91,10 +91,10 @@ export function Index() {
 
 
                     >
-                        <Button variant={"ghost"} className={`rounded-full border size-12 bg-foreground cursor-pointer `} onClick={() => {
+                        <Button variant={"ghost"} className={`rounded-full border size-12 bg-foreground cursor-pointer text-background hover:text-foreground `} onClick={() => {
                             window.scrollTo({top: 0, behavior: "smooth"})
                         }}>
-                            <ArrowUp className={"size-8 text-background"}/>
+                            <ArrowUp className={"size-8  "}/>
                         </Button>
                     </motion.div>
                     )}
