@@ -36,12 +36,10 @@ export function ContainerBox({items, setEditing, setEditedItem, editedItem, isEd
     const [clics, setClics] = useState<number>(0)
     const debounceClics = useDebounce(clics, 150)
 
-    let timer:NodeJS.Timeout;
+
 
     useEffect(() => {
         if(debounceClics === 1) setIsOpen(true)
-
-        console.log(clics)
     }, [debounceClics]);
 
     return (
@@ -57,7 +55,7 @@ export function ContainerBox({items, setEditing, setEditedItem, editedItem, isEd
             </TableHeader>
             <TableBody>
                 { items && items.map((item, index) => (
-                    <>
+
 
                         <TableRow key={index}
                                   onDoubleClick={() => {
@@ -66,10 +64,10 @@ export function ContainerBox({items, setEditing, setEditedItem, editedItem, isEd
                                   }}
                                   onClick={() => {
                                         setSelectedItem(item.foodFactItem)
-                                      timer= setTimeout(()=>{
-                                          setClics(0)
-                                      },500)
-                                      setClics(prev => prev +1)
+                                        setTimeout(()=>{
+                                            setClics(0)
+                                        },500)
+                                        setClics(prev => prev +1)
                                   }}
                         >
 
@@ -115,21 +113,30 @@ export function ContainerBox({items, setEditing, setEditedItem, editedItem, isEd
                             </TableCell>
                         </TableRow>
 
-                        <Dialog open={isOpen} onOpenChange={setIsOpen}>
-                            <DialogContent  className={""}>
-                                <DialogHeader>
-                                    <DialogTitle>{selectedItem?.productName + " - " + selectedItem?.brand}</DialogTitle>
 
-                                </DialogHeader>
-                                <div className="">
-                                    <p>{selectedItem?.nutriments}</p>
-                                </div>
-                            </DialogContent>
-                        </Dialog>
-                    </>
+
 
 
                 ))}
+                <Dialog open={isOpen} onOpenChange={setIsOpen}>
+                    <DialogContent aria-describedby={undefined} className={""}>
+                        <DialogHeader>
+                            <DialogTitle>{selectedItem?.productName + " - " + selectedItem?.brand}</DialogTitle>
+
+                        </DialogHeader>
+                        <img src={`https://static.openfoodfacts.org/images/attributes/dist/nutriscore-${selectedItem?.nutriGrade}-new-fr.svg`}
+                             alt={"nutrigrade"}
+                             draggable={false}
+                             className={"aspect-video h-16 "}
+                        />
+
+                        <div className="flex">
+                            <img src={selectedItem?.imageUrl} alt={selectedItem?.productName + " - " + selectedItem?.brand + "image"} draggable={false}/>
+
+                            <img src={selectedItem?.nutritionImgUrl} alt={selectedItem?.productName + " - " + selectedItem?.brand + "nutriments"} draggable={false}/>
+                        </div>
+                    </DialogContent>
+                </Dialog>
             </TableBody>
             { items && items.length === 0 && (
                 <TableCaption>No food items in this container</TableCaption>

@@ -31,7 +31,7 @@ export type ContainerFoodType = {
     unit:string
 }
 
-interface Container {
+export type Container = {
     id: number;
     userId: number;
     createdAt:Date;
@@ -42,6 +42,7 @@ interface Container {
 export type ContainerType = {
     containers: Container[]
     fetchContainers: (data:Container[]) => void;
+    editContainers: (editedData:Container) => void,
     clearContainers: () => void;
 }
 
@@ -51,7 +52,19 @@ export const useContainerStore = create<ContainerType>()(
     persist(
         (set) => ({
             containers: [],
-            fetchContainers: (data: Container[]) => set({ containers: data }),
+            fetchContainers: (data) => set({ containers: data }),
+            editContainers: (editedData) => {
+                const newContainers = containerStore.containers.map(container =>
+                    container.id == editedData.id
+                    ? {...container, containerName:editedData.containerName}
+                    : container
+                )
+                console.log("old: ", containerStore.containers)
+                console.log("new: ", newContainers)
+                set({
+                    containers:newContainers
+                })
+            },
             clearContainers: () => set({ containers: [] }),
         }),
         {
