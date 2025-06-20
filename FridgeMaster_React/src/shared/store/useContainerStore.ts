@@ -56,7 +56,7 @@ export const useContainerStore = create<ContainerType>()(
             editContainers: (editedData) => {
                 const newContainers = containerStore.containers.map(container =>
                     container.id == editedData.id
-                    ? {...container, containerName:editedData.containerName}
+                    ? {...container, containerName:editedData.containerName.trim()}
                     : container
                 )
                 console.log("old: ", containerStore.containers)

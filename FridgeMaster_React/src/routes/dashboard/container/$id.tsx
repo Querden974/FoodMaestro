@@ -31,6 +31,13 @@ function ContainerShow() {
     const [containerInfo, setContainerInfo] = useState<Container>(useContainerStore((state) => state.containers).filter(c => c.id === parseInt(id))[0])
     const [oldName, setOldName] = useState(containerInfo.containerName)
 
+    const handleSubmit = async ()=> {
+        if(containerInfo.containerName !== oldName) {
+            if (containerInfo) await EditContainerName({...containerInfo, containerName:containerInfo.containerName.trim()});
+            setOldName(containerInfo.containerName.trim())
+        }
+        setTitleEditing(prevState => !prevState)
+    }
     return(
         <div className="p-2 flex-1 flex flex-row gap-4">
 
@@ -41,18 +48,17 @@ function ContainerShow() {
                         <CardTitle className={"flex gap-3 place-items-center w-1/2 h-8"}>
                             {titleEditing
                                 ? <>
-                                    <Input className={"text-xl "} value={containerInfo?.containerName} onChange={(e) => {
+                                    <Input className={"text-xl "} value={containerInfo?.containerName}
+                                           onKeyDown={async (e)=> {
+                                               if(e.key == "Enter") await handleSubmit()
+                                           } }
+                                           onChange={(e) => {
                                         setContainerInfo(prev => prev ? {...prev, containerName:e.target.value} : prev )
 
                                     }}/>
                                     <div className={"p-2 cursor-pointer rounded-full hover:bg-foreground/25 transition duration-100"}
-                                         onClick={async () => {
-                                             if(containerInfo.containerName !== oldName) {
-                                                 if (containerInfo) await EditContainerName({...containerInfo, containerName:containerInfo.containerName.trim()});
-                                                 setOldName(containerInfo.containerName.trim())
-                                             }
-                                             setTitleEditing(prevState => !prevState)
-                                         }}
+                                         onClick={async () => handleSubmit()}
+
                                     >
                                         <Save className={"size-4"}/>
                                     </div>
