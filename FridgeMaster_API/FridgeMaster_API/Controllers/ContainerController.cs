@@ -68,7 +68,7 @@ namespace FridgeMaster_API.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpPut("id")]
-        public async Task<IActionResult> EditContainer([FromBody] ContainerRequest model, int id)
+        public async Task<IActionResult> EditContainer([FromBody] ContainerEditRequest model, int id)
         {
             var isContainerExist = _db.Containers.AnyAsync(c => c.Id == id);
             if (await isContainerExist == true)

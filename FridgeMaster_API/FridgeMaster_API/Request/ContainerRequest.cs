@@ -25,4 +25,14 @@ namespace FridgeMaster_API.Request
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
     }
+
+    public class ContainerEditRequest
+    {
+        public int Id { get; set; }
+
+        public string ContainerName { get; set; }
+        public int UserId { get; set; }
+
+        public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
+    }
 }
