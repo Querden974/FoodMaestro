@@ -170,13 +170,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardContainerIdRouteImport
       parentRoute: typeof DashboardRouteRoute
     }
-    '/dashboard/container/AddFoodDialog': {
-      id: '/dashboard/container/AddFoodDialog'
-      path: ''
-      fullPath: '/dashboard/container/AddFoodDialog'
-      preLoaderRoute: unknown
-      parentRoute: typeof rootRouteImport
-    }
   }
 }
 
@@ -241,15 +234,6 @@ declare module './routes/dashboard/container/$id' {
     FileRoutesByPath['/dashboard/container/$id']['id'],
     FileRoutesByPath['/dashboard/container/$id']['path'],
     FileRoutesByPath['/dashboard/container/$id']['fullPath']
-  >
-}
-declare module './routes/dashboard/container/AddFoodDialog' {
-  const createFileRoute: CreateFileRoute<
-    '/dashboard/container/AddFoodDialog',
-    FileRoutesByPath['/dashboard/container/AddFoodDialog']['parentRoute'],
-    FileRoutesByPath['/dashboard/container/AddFoodDialog']['id'],
-    FileRoutesByPath['/dashboard/container/AddFoodDialog']['path'],
-    FileRoutesByPath['/dashboard/container/AddFoodDialog']['fullPath']
   >
 }
 

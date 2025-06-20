@@ -43,6 +43,8 @@ export type ContainerType = {
     containers: Container[]
     fetchContainers: (data:Container[]) => void;
     editContainers: (editedData:Container) => void,
+    changeContainerName: (newName:string) => void,
+    removeContainer: ( item:ContainerFoodType) => void,
     clearContainers: () => void;
 }
 
@@ -53,6 +55,24 @@ export const useContainerStore = create<ContainerType>()(
         (set) => ({
             containers: [],
             fetchContainers: (data) => set({ containers: data }),
+            changeContainerName: (newName) => {
+                const data = {...containerStore.containers, containerName:newName}
+                set({
+                    containers:data
+                })
+            },
+            removeContainer: (item) => {
+                const data = containerStore.containers.map(i =>
+                    i.id == item.containerId
+                        ? {...i, containerFood:i.containerFood.filter(food => food.id != item.id)}
+                        : i
+
+                )
+                console.log(data)
+                set({
+                    containers:data
+                })
+            },
             editContainers: (editedData) => {
                 const newContainers = containerStore.containers.map(container =>
                     container.id == editedData.id

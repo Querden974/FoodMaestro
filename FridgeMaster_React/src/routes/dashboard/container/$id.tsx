@@ -6,12 +6,12 @@ import {useAuthStore} from "@/features/Login/store/useAuthStore.ts";
 import {Button} from "@/components/ui/button.tsx";
 import {Save, Pencil, RefreshCw} from "lucide-react";
 import {motion, AnimatePresence} from "motion/react";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import { Label } from "@/components/ui/label";
 import {Input} from "@/components/ui/input.tsx";
 import {EditContainerName} from "@/routes/dashboard/container/-services/EditContainerName"
 import {FetchUserContainer} from "@/routes/dashboard/container/-services/FetchUserContainer.ts";
-import AddFoodDialog from "@/routes/dashboard/container/AddFoodDialog.tsx";
+import AddFoodDialog from "@/routes/dashboard/container/-components/AddFoodDialog.tsx";
 
 export const Route = createFileRoute({
     component: ContainerShow,
@@ -33,13 +33,15 @@ function ContainerShow() {
     const [isEditing, setIsEditing] = useState(false);
     const [editedItem, setEditedItem] = useState<number | null>(null);
     const [titleEditing, setTitleEditing] = useState<boolean>(false)
-    const [containerInfo, setContainerInfo] = useState<Container>(useContainerStore((state) => state.containers).filter(c => c.id === parseInt(id))[0])
-    const [oldName, setOldName] = useState(containerInfo.containerName)
+
+    const containerInfo = useContainerStore( s=> s.containers.find(c => c.id === parseInt(id)))
+    const changeContainerName = useContainerStore(s => s.changeContainerName)
+    const [oldName, setOldName] = useState(containerInfo?.containerName)
 
     const handleSubmit = async ()=> {
-        if(containerInfo.containerName !== oldName) {
+        if(containerInfo?.containerName !== oldName) {
             if (containerInfo) await EditContainerName({...containerInfo, containerName:containerInfo.containerName.trim()});
-            setOldName(containerInfo.containerName.trim())
+            setOldName(containerInfo?.containerName.trim())
         }
         setTitleEditing(prevState => !prevState)
     }
@@ -59,7 +61,7 @@ function ContainerShow() {
                                                if(e.key == "Enter") await handleSubmit()
                                            } }
                                            onChange={(e) => {
-                                        setContainerInfo(prev => prev ? {...prev, containerName:e.target.value} : prev )
+                                               changeContainerName(e.target.value)
 
                                     }}/>
                                     <div className={"p-2 cursor-pointer rounded-full hover:bg-foreground/25 transition duration-100"}
@@ -109,7 +111,7 @@ function ContainerShow() {
                                     transition={{ duration: 0.2 }}
                                     className={"absolute flex right-6 gap-2"}
                                 >
-                                    <AddFoodDialog />
+                                    <AddFoodDialog containerId={Number(id)} />
                                     <Button variant={"secondary"} className={"size-auto rounded-full aspect-square cursor-pointer"}
                                             onClick={async () => {
                                                 const data = await FetchUserContainer(userId)

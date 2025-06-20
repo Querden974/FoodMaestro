@@ -22,6 +22,9 @@ import {useEffect, useState} from "react";
 import {useDebounce} from "@/hooks/use-debounce.ts"
 
 import {Dialog, DialogContent, DialogHeader, DialogTitle} from "@/components/ui/dialog.tsx";
+import {Button} from "@/components/ui/button.tsx";
+import {Trash2, Pencil} from "lucide-react";
+import {useContainerStore} from "@/shared/store/useContainerStore.ts"
 
 export function ContainerBox({items, setEditing, setEditedItem, editedItem, isEditing}
                                      :{
@@ -36,9 +39,12 @@ export function ContainerBox({items, setEditing, setEditedItem, editedItem, isEd
     const [clics, setClics] = useState<number>(0)
     const debounceClics = useDebounce(clics, 150)
 
+    const removeContainerFood = useContainerStore(s => s.removeContainer)
+
 
 
     useEffect(() => {
+
         if(debounceClics === 1) setIsOpen(true)
     }, [debounceClics]);
 
@@ -51,6 +57,8 @@ export function ContainerBox({items, setEditing, setEditedItem, editedItem, isEd
                     <TableHead className={"w-1/10"}>Quantity</TableHead>
                     <TableHead className={"w-1/10"}>Unit</TableHead>
                     <TableHead className="text-center w-2/10">Expire</TableHead>
+                    <TableHead>
+                    </TableHead>
                 </TableRow>
             </TableHeader>
             <TableBody>
@@ -63,20 +71,20 @@ export function ContainerBox({items, setEditing, setEditedItem, editedItem, isEd
                                       setEditedItem(index)
                                       setEditing(true);
                                   }}
-                                  onClick={() => {
-                                        setSelectedItem(item.foodFactItem)
-                                        setTimeout(()=>{
-                                            setClics(0)
-                                        },500)
-                                        setClics(prev => prev +1)
-                                  }}
                         >
 
 
 
 
-                            <TableCell className="font-medium">
-                                <Label>{item.foodFactItem.productName}</Label>
+                            <TableCell className="font-medium hover:underline" onClick={() => {
+
+                                setSelectedItem(item.foodFactItem)
+                                setTimeout(()=>{
+                                    setClics(0)
+                                },500)
+                                setClics(prev => prev +1)
+                            }}>
+                                <Label className={"cursor-pointer"}>{item.foodFactItem.productName}</Label>
 
                             </TableCell>
                             <TableCell>
@@ -111,6 +119,16 @@ export function ContainerBox({items, setEditing, setEditedItem, editedItem, isEd
                                     : <Label>{item.expirationDate ? new Date(item.expirationDate).toLocaleDateString() : "N/A"}</Label>
                                 }
 
+                            </TableCell>
+                            <TableCell >
+                                <div className="flex gap-2 w-fit mx-auto">
+                                    <Button className={"cursor-pointer"}>
+                                        <Pencil/>
+                                    </Button>
+                                    <Button className={"cursor-pointer"} variant={'destructive'} onClick={() => removeContainerFood(item)}>
+                                        <Trash2/>
+                                    </Button>
+                                </div>
                             </TableCell>
                         </TableRow>
 
