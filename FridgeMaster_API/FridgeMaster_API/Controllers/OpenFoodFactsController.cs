@@ -3,6 +3,7 @@ using FridgeMaster_API.Data;
 using FridgeMaster_API.Model;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using OpenFoodFacts.DotNet;
 using OpenFoodFacts.DotNet.Wrapper;
@@ -68,8 +69,21 @@ namespace FridgeMaster_API.Controllers
 
             return Ok(item);
         }
-        
 
+        [HttpGet("keywords")]
+        public async Task<ActionResult<IEnumerable<FoodFactsItem>>> SearchItem([FromQuery] string keywords)
+        {
+            string[] keys = keywords.Split(" ", StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+            var allItems = await _db.FoodFactsItems.ToListAsync();
+            var result = allItems
+                .Where(f => keys.All(searchKey =>
+                    f.Keywords.Any(itemKey =>
+                        string.Equals(itemKey, searchKey, StringComparison.OrdinalIgnoreCase)
+                        )
+                    ))
+                .ToList();
+            return Ok(result);
+        }
         }
     
 }
