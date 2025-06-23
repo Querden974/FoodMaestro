@@ -1,12 +1,12 @@
 import {useLoaderData} from "@tanstack/react-router";
 import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card.tsx";
 import {ContainerBox} from "@/components/ContainerBox.tsx";
-import {type Container, useContainerStore} from "@/shared/store/useContainerStore.ts";
+import { useContainerStore} from "@/shared/store/useContainerStore.ts";
 import {useAuthStore} from "@/features/Login/store/useAuthStore.ts";
 import {Button} from "@/components/ui/button.tsx";
 import {Save, Pencil, RefreshCw} from "lucide-react";
 import {motion, AnimatePresence} from "motion/react";
-import {useEffect, useState} from "react";
+import { useState} from "react";
 import { Label } from "@/components/ui/label";
 import {Input} from "@/components/ui/input.tsx";
 import {EditContainerName} from "@/routes/dashboard/container/-services/EditContainerName"
@@ -19,6 +19,7 @@ export const Route = createFileRoute({
         const { id } = params;
         return {id};
     }
+
 
 })
 
