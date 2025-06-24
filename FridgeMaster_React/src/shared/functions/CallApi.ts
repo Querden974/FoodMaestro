@@ -7,17 +7,19 @@ type CallApiParams <T> =
     data?: null | undefined
     okMessage:string
     errorMessage:string
+    haveApiResponse?:boolean
         }
     | {
     endpoint:string
-    method: "GET" | "POST" | "PUT" | "DELETE"
+    method: "POST" | "PUT" | "PATCH"
     data?: T
     okMessage:string
     errorMessage:string
+    haveApiResponse:boolean
     }
 
 
-export async function callApi<T,U>({endpoint, method, data, okMessage, errorMessage} : CallApiParams<T>) {
+export async function callApi<T,U>({endpoint, method, data, okMessage, errorMessage, haveApiResponse} : CallApiParams<T>) {
 
         const url = import.meta.env.VITE_API_URL + endpoint;
         let fetchOptions;
@@ -50,10 +52,13 @@ export async function callApi<T,U>({endpoint, method, data, okMessage, errorMess
                     icon:"success",
                     message:okMessage,
                 })
-
-
             }
-            return await res.json() as U
+            if(haveApiResponse) {
+                return await res.json() as U
+            }else{
+                return true
+            }
+
 
         } catch (err:unknown){
             if(err instanceof Error){
@@ -61,13 +66,13 @@ export async function callApi<T,U>({endpoint, method, data, okMessage, errorMess
                     icon:"error",
                     message:`${errorMessage} : ${err.message}`,
                 })
+                console.error(err)
             } else {
                 showToast({
                     icon:"error",
                     message:`An unknown error occurred`,
                 })
             }
-
             return null
         }
     }
