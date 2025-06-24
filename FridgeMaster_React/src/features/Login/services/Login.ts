@@ -3,6 +3,9 @@ import type {UserInfoType} from "@/shared/store/useUserInfo.ts";
 import type {ContainerType} from "@/shared/store/useContainerStore.ts";
 import {showToast} from "@/components/ToastInfo";
 
+/**
+ * @deprecated use `CallApi` from `@/shared/functions/CallApi` instead
+ */
 export async function doLogin (form:object,
                                setAuth: AuthStateType["login"] ,
                                setUserInfo:UserInfoType["fetchData"],
