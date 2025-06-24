@@ -4,7 +4,9 @@ import {showToast} from "@/components/ToastInfo.tsx";
 
 
 const editContainerStore = useContainerStore.getState().editContainers
-
+/**
+ * @deprecated use `CallApi` from `@/shared/functions/CallApi` instead
+ */
 export async function EditContainerName(form:Container) {
     const url = import.meta.env.VITE_API_URL+"/Container/id?id="+form.id;
 
