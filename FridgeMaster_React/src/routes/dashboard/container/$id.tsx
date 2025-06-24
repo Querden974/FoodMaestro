@@ -1,15 +1,15 @@
 import {useLoaderData} from "@tanstack/react-router";
 import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card.tsx";
 import {ContainerBox} from "@/components/ContainerBox.tsx";
-import { useContainerStore} from "@/shared/store/useContainerStore.ts";
+import { useContainerStore, type Container} from "@/shared/store/useContainerStore.ts";
 import {useAuthStore} from "@/features/Login/store/useAuthStore.ts";
 import {Button} from "@/components/ui/button.tsx";
 import {Save, Pencil, RefreshCw} from "lucide-react";
 import {motion, AnimatePresence} from "motion/react";
-import { useState} from "react";
+import {useEffect, useState} from "react";
 import { Label } from "@/components/ui/label";
 import {Input} from "@/components/ui/input.tsx";
-import {EditContainerName} from "@/routes/dashboard/container/-services/EditContainerName"
+import {callApi} from "@/shared/functions/CallApi.ts";
 import {FetchUserContainer} from "@/routes/dashboard/container/-services/FetchUserContainer.ts";
 import AddFoodDialog from "@/routes/dashboard/container/-components/AddFoodDialog.tsx";
 
@@ -36,12 +36,36 @@ function ContainerShow() {
     const [titleEditing, setTitleEditing] = useState<boolean>(false)
 
     const containerInfo = useContainerStore( s=> s.containers.find(c => c.id === parseInt(id)))
-    const changeContainerName = useContainerStore(s => s.changeContainerName)
-    const [oldName, setOldName] = useState(containerInfo?.containerName)
+    const editContainerName = useContainerStore(s => s.editContainers)
+    const [oldName, setOldName] = useState<string>()
+    const [containerName, setContainerName] = useState<string>();
+
+    useEffect(() => {
+        if(containerInfo) {
+            setContainerName(containerInfo.containerName)
+            setOldName(containerInfo.containerName)
+        }
+    }, []);
 
     const handleSubmit = async ()=> {
+
         if(containerInfo?.containerName !== oldName) {
-            if (containerInfo) await EditContainerName({...containerInfo, containerName:containerInfo.containerName.trim()});
+            console.log("submit")
+            if (containerInfo && containerName){
+                const editedContainer = {...containerInfo, containerName: containerName.trim() }
+                console.log(editedContainer)
+                const response = await callApi<Container, true>({
+                    method: "PUT",
+                    endpoint: `/Container/id?id=${id}`,
+                    data: editedContainer,
+                    okMessage: "Container name updated successfully",
+                    errorMessage: "Failed to update container name",
+                    haveApiResponse:false,
+                })
+
+                if(response) editContainerName(editedContainer)
+            }
+            // await EditContainerName({...containerInfo, containerName:containerInfo.containerName.trim()});
             setOldName(containerInfo?.containerName.trim())
         }
         setTitleEditing(prevState => !prevState)
@@ -57,23 +81,23 @@ function ContainerShow() {
                         <CardTitle className={"flex gap-3 place-items-center w-1/2 h-8"}>
                             {titleEditing
                                 ? <>
-                                    <Input className={"text-xl "} value={containerInfo?.containerName}
+                                    <Input className={"text-xl "} value={containerName}
                                            onKeyDown={async (e)=> {
                                                if(e.key == "Enter") await handleSubmit()
                                            } }
                                            onChange={(e) => {
-                                               changeContainerName(e.target.value)
+                                               setContainerName(e.target.value)
 
                                     }}/>
                                     <div className={"p-2 cursor-pointer rounded-full hover:bg-foreground/25 transition duration-100"}
-                                         onClick={async () => handleSubmit()}
+                                         onClick={async () =>await handleSubmit()}
 
                                     >
                                         <Save className={"size-4"}/>
                                     </div>
                                 </>
                                 : <>
-                                    <Label className={"text-xl"}>{containerInfo?.containerName}</Label>
+                                    <Label className={"text-xl"}>{containerName}</Label>
                                     <div className={"p-2 cursor-pointer rounded-full hover:bg-foreground/25 transition duration-100"}
                                          onClick={() => {
                                              setTitleEditing(prevState => !prevState)
