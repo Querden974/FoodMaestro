@@ -2,6 +2,8 @@
 using AutoMapper;
 using FridgeMaster_API.Data;
 using FridgeMaster_API.Model;
+using FridgeMaster_API.Request;
+using FridgeMaster_API.Types;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -21,16 +23,18 @@ namespace FridgeMaster_API.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet("{userId}")]
-        public async Task<ActionResult<ShoppingList>> GetShoppingList(int userId)
+        [HttpGet("userId")]
+        public async Task<ActionResult<GETShoppingListRequest>> GetShoppingList(int userId)
         {
-            var shoppingList = await _db.ShoppingLists.FirstAsync(s => s.UserId == userId);
-                
-            if (shoppingList == null)
+            var query = await _db.ShoppingLists.FirstAsync(s => s.UserId == userId);
+            var result = _mapper.Map<GETShoppingListRequest>(query);
+            
+            if (result == null)
             {
                 return NotFound("Shopping list not found for the specified user.");
             }
-            var parseList = JsonSerializer.Serialize(shoppingList.Items);
+            if (result.Items.Length == 0) { return Ok("Shopping list is Empty"); }
+            var parseList = JsonSerializer.Deserialize<List<ShoppingListItemsType>>(result.Items ?? "[]");
             return Ok(parseList);
         }
 
@@ -54,21 +58,39 @@ namespace FridgeMaster_API.Controllers
         }
 
         [HttpPut]
-        public async Task<ActionResult<ShoppingList>> EditShoppingList([FromBody] ShoppingList shoppingList)
+        public async Task<ActionResult<ShoppingList>> AddItemInShoppingList([FromBody] ShoppingListRequest shoppingListItem)
         {
-            if (shoppingList == null || shoppingList.UserId <= 0)
+            if (shoppingListItem == null || shoppingListItem.UserId <= 0)
             {
                 return BadRequest("Invalid shopping list data.");
             }
-            var userList = await _db.ShoppingLists.FirstAsync(sl => sl.UserId == shoppingList.Id);
-            userList.Items = JsonSerializer.Serialize(shoppingList.Items);
+
+            var userList = await _db.ShoppingLists.FirstAsync(sl => sl.UserId == shoppingListItem.UserId);
+            if (userList == null) return NotFound("User shopping list not found");
+
+            //current list
+            var existingItems = !string.IsNullOrEmpty(userList.Items)
+                ? JsonSerializer.Deserialize<List<ShoppingListItemsType>>(userList.Items)
+                : new List<ShoppingListItemsType>();
+
+            var newItem = shoppingListItem.NewItem != null 
+                ? new List<ShoppingListItemsType> { shoppingListItem.NewItem } 
+                : new List<ShoppingListItemsType>();
+
+            // Fix for CS1503: Wrap the single item in a list to match the expected type
+            existingItems?.AddRange(newItem);
+
+            userList.Items = JsonSerializer.Serialize(existingItems);
             userList.UpdatedAt = DateTime.UtcNow;
 
             await _db.SaveChangesAsync();
 
             return Ok("Shopping List Editted");
-                
         }
+
+        //[HttpPatch]
+        // Setup endpoint to edit ShoppingList 
+
 
     }
 }

@@ -1,4 +1,6 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.Text.Json;
+using System.Text.Json.Serialization;
+using FridgeMaster_API.Types;
 
 namespace FridgeMaster_API.Model
 {
@@ -8,8 +10,9 @@ namespace FridgeMaster_API.Model
         public int UserId { get; set; }
         [JsonIgnore]
         public User? User { get; set; } // Navigation property for User
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        public DateTime? CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
-        public string Items { get; set; } // JSON string of items
+        [JsonIgnore]
+        public string Items { get; set; } = JsonSerializer.Serialize(new List<ShoppingListItemsType>()); // JSON string of items
     }
 }

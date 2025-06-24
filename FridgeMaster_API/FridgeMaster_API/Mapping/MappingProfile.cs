@@ -12,6 +12,7 @@ namespace FridgeMaster_API.Mapping
             CreateMap<Container, ContainerRequest>();
             CreateMap<User, UserRequest>();
             CreateMap<UserInfo, UserInfoRequest>();
+            CreateMap<ShoppingList, GETShoppingListRequest>();
         }
     }
 }
