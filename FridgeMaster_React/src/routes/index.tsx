@@ -7,12 +7,10 @@ import NavBar from "@/features/Home/component/NavBar.tsx";
 
 import {useInView} from "react-intersection-observer";
 
-import { useRouter } from "@tanstack/react-router";
-import {useRef, useEffect} from "react";
+
+import {useRef} from "react";
 import {ArrowUp} from "lucide-react";
 
-
-import { showToast } from "@/components/ToastInfo";
 import {Button} from "@/components/ui/button.tsx";
 
 import {motion, AnimatePresence} from "motion/react";
@@ -28,21 +26,9 @@ export function Index() {
         threshold: 1,
     })
 
-    const {message, icon} = useRouter().state.location.state;
-
-
-    useEffect(() => {
-        if(message && icon) showToast({
-            message: message,
-            icon: icon,
-        });
-    }, [message]);
-
-
     const howToRef = useRef<HTMLDivElement | null>(null);
     const featureRef = useRef<HTMLDivElement | null>(null);
     const faqRef = useRef<HTMLDivElement | null>(null);
-
 
 
     return (
