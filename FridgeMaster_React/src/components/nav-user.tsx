@@ -36,6 +36,7 @@ import { useAuthStore } from "@/features/Login/store/useAuthStore.ts";
 import { useNavigate } from "@tanstack/react-router";
 import {Button} from "@/components/ui/button.tsx";
 import {useState} from "react";
+import {showToast} from "@/components/ToastInfo.tsx";
 
 
 
@@ -146,17 +147,17 @@ export function NavUserHome({
   }
 }) {
  const [isDisabled, setIsDisabled] = useState(false);
-  const logout = useAuthStore.getState().logout
+  const logout = useAuthStore(s=>s.logout)
   const navigate = useNavigate();
   const handleLogout = () => {
     logout();
     navigate({
-      to: "/",
-      state: {
-        icon: "success",
-        message: "You have been logged out",
-      },
+      to: "/"
     });
+    showToast({
+      icon:"success",
+      message:"Logged out successfully",
+    })
   };
   const {theme, setTheme} = useTheme();
   return (

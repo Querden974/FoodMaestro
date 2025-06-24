@@ -3,7 +3,14 @@ import { NavUserHome} from "@/components/nav-user";
 import {useAuthStore} from "@/features/Login/store/useAuthStore.ts";
 
 export default function NavBar() {
-    const {username, email, isLoggedIn} = useAuthStore.getState();
+    const {username, email, isLoggedIn} = {
+        username:useAuthStore(s=>s.username),
+        email:useAuthStore(s=>s.email),
+        isLoggedIn:useAuthStore(s=>s.isLoggedIn)
+    }
+
+
+
     return (
         <nav className={"grid grid-cols-3 grid-flow-col items-center justify-between px-16 mt-4"}>
             <a href={"/"} className={"font-fredoka-one text-3xl"}>Food Maestro</a>
