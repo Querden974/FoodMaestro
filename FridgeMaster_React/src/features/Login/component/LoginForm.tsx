@@ -46,9 +46,10 @@ export default function LoginForm() {
                     method:"POST",
                     data:value,
                     okMessage:"Login successful",
-                    errorMessage:"Invalid credentials"
+                    errorMessage:"Invalid credentials",
+                    haveApiResponse:true,
                 })
-                if (request) {
+                if (typeof request != "boolean" && request) {
                     login(request.data.username, request.data.email ,request.data.id);
                     userInfo(
                         request.data.userInfo.firstName,
