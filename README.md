@@ -26,10 +26,10 @@ This project was created to improve my skills in web development and database ma
 - ✅ Search for items by name.
 - ✅ User authentication. (Register and Login)
 - ✅ Food container edition.
+- 🔧 Shopping list CRUD Backend
 - ❌ Delete user account.
 - ❌ Use providers to authenticate users (Google, Facebook, etc.)
 - ❌ Recipe management with ingredients and instructions.
-- ❌ Shopping list
 - ❌ Request to add or edit food item in database
 - ❌ Setting page to edit user informations
 
