@@ -14,7 +14,7 @@ export async function SearchItem(keyword:string):Promise<FoodType[] | null>{
 
 
 
-        return await res.json()
+        return await res.json() as FoodType[]
 
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (err){

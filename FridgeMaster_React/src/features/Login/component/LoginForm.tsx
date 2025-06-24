@@ -2,11 +2,10 @@ import {useForm} from "@tanstack/react-form"
 import {Label} from "@/components/ui/label.tsx"
 import {Input} from "@/components/ui/input.tsx"
 import {Button} from "@/components/ui/button.tsx"
-import {doLogin} from "@/features/Login/services/Login.ts";
 
+import {callApi} from "@/shared/functions/CallApi.ts";
 
-
-import {useAuthStore} from "@/features/Login/store/useAuthStore.ts";
+import {useAuthStore, type LoginResponseType} from "@/features/Login/store/useAuthStore.ts";
 import {useContainerStore} from "@/shared/store/useContainerStore.ts";
 import {useUserInfo} from "@/shared/store/useUserInfo.ts";
 
@@ -29,10 +28,7 @@ const loginFormSchema = z
 
 export default function LoginForm() {
     const navigate = useNavigate();
-    const redirect = () => {
-            navigate({
-                to:"/dashboard"
-            })}
+
     const login = useAuthStore((s) => s.login);
     const userInfo = useUserInfo(s => s.fetchData);
     const containers = useContainerStore(s => s.fetchContainers);
@@ -44,7 +40,27 @@ export default function LoginForm() {
 
         onSubmit: async ( {value}) => {
                 console.log(value)
-               await doLogin(value, login, userInfo, containers, redirect )
+               // await doLogin(value, login, userInfo, containers, redirect )
+                const request  = await callApi<LoginFormType, LoginResponseType>({
+                    endpoint:"/Login",
+                    method:"POST",
+                    data:value,
+                    okMessage:"Login successful",
+                    errorMessage:"Invalid credentials"
+                })
+                if (request) {
+                    login(request.data.username, request.data.email ,request.data.id);
+                    userInfo(
+                        request.data.userInfo.firstName,
+                        request.data.userInfo.lastName,
+                        request.data.userInfo.birthday,
+                        request.data.userInfo.isFirstLogin
+                    );
+                    containers(request.container);
+                    await navigate({
+                        to:"/dashboard"
+                    })
+                }
 
         },
     })

@@ -130,7 +130,7 @@ function ContainerShow() {
 
                 </CardHeader>
                 <CardContent >
-                    <ContainerBox items={containerInfo.containerFood} setEditing={setIsEditing} setEditedItem={setEditedItem} editedItem={editedItem} isEditing={isEditing}/>
+                    <ContainerBox items={containerInfo?.containerFood} setEditing={setIsEditing} setEditedItem={setEditedItem} editedItem={editedItem} isEditing={isEditing}/>
                 </CardContent>
             </Card>
 
@@ -142,10 +142,10 @@ function ContainerShow() {
                     <div className="mt-4 grid gap-2 select-none">
                         <h2 className="text-lg font-semibold">Container Details</h2>
                         <div className="">
-                            <p>Container ID: {containerInfo.id}</p>
+                            <p>Container ID: {containerInfo?.id}</p>
                             <p>Container Owner: {user}</p>
-                            <p>Created At: {new Date(containerInfo.createdAt).toLocaleDateString()}</p>
-                            <p>Updated At: {new Date(containerInfo.updatedAt).toLocaleDateString()}</p>
+                            <p>Created At: {new Date(containerInfo ? containerInfo.createdAt : "").toLocaleDateString()}</p>
+                            <p>Updated At: {new Date(containerInfo ? containerInfo.updatedAt : "").toLocaleDateString()}</p>
                         </div>
 
                     </div>

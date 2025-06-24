@@ -5,7 +5,7 @@ export interface UserInfoType {
     firstName: string;
     lastName: string;
     birthday: Date;
-    isFirstLogin: boolean | undefined
+    isFirstLogin: boolean
     fetchData: (firstname:string,lastname:string, birthday:Date, isFirstLogin:boolean) => void;
     clearData: () => void;
 }
@@ -25,9 +25,9 @@ export const useUserInfo = create<UserInfoType>()(
             firstName: "",
             lastName: "",
             birthday: new Date(),
-            isFirstLogin: undefined,
+            isFirstLogin: false,
             fetchData: (firstname:string, lastname:string, birthday:Date, isFirstLogin:boolean) => set({ firstName: firstname, lastName: lastname, birthday, isFirstLogin }),
-            clearData: () => set({ firstName: "", lastName: "", birthday: new Date(), isFirstLogin: undefined }),
+            clearData: () => set({ firstName: "", lastName: "", birthday: new Date(), isFirstLogin: false }),
         }),
         {
             name: 'user-info-storage',
