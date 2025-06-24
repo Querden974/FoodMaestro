@@ -10,14 +10,6 @@ export interface UserInfoType {
     clearData: () => void;
 }
 
-// export const useUserInfo = create<UserInfoType>((set) => ({
-//     firstName:"",
-//     lastName:"",
-//     birthday:new Date(),
-//     isFirstLogin: undefined,
-//     fetchData: (firstname:string,lastname:string,birthday:Date, isFirstLogin:boolean) => set({firstName:firstname,lastName:lastname, birthday:birthday, isFirstLogin:isFirstLogin}),
-//     clearData: () => set({firstName:"",lastName:"", birthday:new Date(), isFirstLogin:undefined})
-// }));
 
 export const useUserInfo = create<UserInfoType>()(
     persist(
