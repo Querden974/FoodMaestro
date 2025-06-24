@@ -14,6 +14,8 @@ namespace FridgeMaster_API.Data
 
         public DbSet<FoodFactsItem> FoodFactsItems => Set<FoodFactsItem>();
 
+        public DbSet<ShoppingList> ShoppingLists => Set<ShoppingList>();
+
         public AppDbContext(DbContextOptions<AppDbContext> options, IConfiguration configuration) : base(options) {
             _configuration = configuration;
         }
@@ -87,6 +89,19 @@ namespace FridgeMaster_API.Data
                 entity.HasIndex(cf => new { cf.ContainerId, cf.FoodId }).IsUnique(); 
             });
 
-        }     
+            //ShoppingList Setup
+            modelBuilder.Entity<ShoppingList>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+               
+
+                // Relation avec User (one-to-one)
+                entity.HasOne(e => e.User)
+                      .WithOne(u => u.ShoppingList)
+                      .HasForeignKey<ShoppingList>(ui => ui.UserId)
+                      .OnDelete(DeleteBehavior.Cascade);
+            });
+
+        }
     }
 }

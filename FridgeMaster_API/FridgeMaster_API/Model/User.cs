@@ -19,7 +19,9 @@ namespace FridgeMaster_API.Model
         public DateTime? UpdatedAt { get; set; } = DateTime.UtcNow;
         
         public UserInfo? UserInfo { get; set; }
-        
+
+        public ShoppingList? ShoppingList { get; set; }
+
         public IEnumerable<Container>? Container { get; set; }
 
 
