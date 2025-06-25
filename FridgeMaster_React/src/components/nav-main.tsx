@@ -47,17 +47,17 @@ export function NavMain({
                   >
                     <SidebarMenuItem>
                       <CollapsibleTrigger asChild>
-                        <SidebarMenuButton tooltip={item.title} className={"cursor-pointer"}>
+                        <SidebarMenuButton tooltip={item.title} className={"cursor-pointer rounded-full pl-3"}>
                           {item.icon && <item.icon />}
                           <span>{item.title}</span>
                           <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
                         </SidebarMenuButton>
                       </CollapsibleTrigger>
-                      <CollapsibleContent>
-                        <SidebarMenuSub>
+                      <CollapsibleContent className={"ml-1"}>
+                        <SidebarMenuSub className={""}>
                           {item.items?.map((subItem) => (
-                              <SidebarMenuSubItem key={subItem.title}>
-                                <SidebarMenuSubButton asChild>
+                              <SidebarMenuSubItem key={subItem.title} className={"rounded-full"}>
+                                <SidebarMenuSubButton asChild className={"rounded-full"}>
                                   <a href={subItem.url}>
                                     <span>{subItem.title}</span>
                                   </a>
@@ -69,8 +69,8 @@ export function NavMain({
                     </SidebarMenuItem>
                   </Collapsible>
                 ) : (
-                  <SidebarMenuItem key={item.title}>
-                    <SidebarMenuButton asChild>
+                  <SidebarMenuItem key={item.title} >
+                    <SidebarMenuButton asChild className={"rounded-full px-3"}>
                       <a href={item.url}>
                         {item.icon && <item.icon />}
                         <span>{item.title}</span>

@@ -71,7 +71,7 @@ export function NavUser({
           <DropdownMenuTrigger asChild>
             <SidebarMenuButton
               size="lg"
-              className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+              className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground rounded-full"
             >
               <Avatar className="h-8 w-8 rounded-lg">
                 <AvatarImage src={user.avatar} alt={user.name} />
@@ -163,10 +163,11 @@ export function NavUserHome({
   return (
 
           <DropdownMenu>
-            <DropdownMenuTrigger asChild>
+
+            <DropdownMenuTrigger asChild >
               <Button variant={"ghost"}
                   size="lg"
-                  className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground border-2 h-12"
+                  className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground border-2 h-12 rounded-full"
               >
                 <Avatar className="h-8 w-8 rounded-lg">
                   <AvatarImage src={user.avatar} alt={user.name} />
@@ -180,6 +181,8 @@ export function NavUserHome({
                 <ChevronsUpDown className="ml-auto size-4" />
               </Button>
             </DropdownMenuTrigger>
+
+
             <DropdownMenuContent
                 className="w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg font-fredoka"
                 side={"bottom"}

@@ -10,6 +10,8 @@ import {
   Settings2,
   CookingPot,
     Refrigerator,
+    View,
+    List
 } from "lucide-react"
 
 import { NavMain } from "@/components/nav-main"
@@ -55,6 +57,12 @@ const data = {
   ],
   navMain: [
     {
+      title: "Overview",
+      url: "/dashboard",
+      icon: View,
+      isActive: true,
+    },
+    {
       title: "Containers",
       url: "#",
       icon: Refrigerator,
@@ -66,6 +74,12 @@ const data = {
           isActive: true,
       })),
 
+    },
+    {
+      title: "Shopping List",
+      url: "#",
+      icon: List,
+      isActive: false,
     },
     {
       title: "Recipes",
