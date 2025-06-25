@@ -37,23 +37,23 @@ function ContainerShow() {
 
     const containerInfo = useContainerStore( s=> s.containers.find(c => c.id === parseInt(id)))
     const editContainerName = useContainerStore(s => s.editContainers)
-    const [oldName, setOldName] = useState<string>()
-    const [containerName, setContainerName] = useState<string>();
+    const [oldName, setOldName] = useState<string>("")
+    const [containerName, setContainerName] = useState<string>("");
 
     useEffect(() => {
         if(containerInfo) {
-            setContainerName(containerInfo.containerName)
-            setOldName(containerInfo.containerName)
+            setContainerName(containerInfo.containerName.trim())
+            setOldName(containerInfo.containerName.trim())
         }
     }, []);
 
     const handleSubmit = async ()=> {
 
-        if(containerInfo?.containerName !== oldName) {
-            console.log("submit")
+        if(containerName.trim() !== oldName) {
+
             if (containerInfo && containerName){
                 const editedContainer = {...containerInfo, containerName: containerName.trim() }
-                console.log(editedContainer)
+
                 const response = await callApi<Container, true>({
                     method: "PUT",
                     endpoint: `/Container/id?id=${id}`,
@@ -66,7 +66,7 @@ function ContainerShow() {
                 if(response) editContainerName(editedContainer)
             }
             // await EditContainerName({...containerInfo, containerName:containerInfo.containerName.trim()});
-            setOldName(containerInfo?.containerName.trim())
+            setOldName(containerName.trim())
         }
         setTitleEditing(prevState => !prevState)
     }

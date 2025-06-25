@@ -34,7 +34,7 @@ export function NavMain({
   }[]
 }) {
   const router = useRouter()
-  console.log(router.latestLocation.href)
+  // console.log(router.latestLocation.href)
   const currentPath = router.latestLocation.href
 
   return (
