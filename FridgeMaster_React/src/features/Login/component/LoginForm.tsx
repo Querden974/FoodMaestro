@@ -4,6 +4,7 @@ import {Input} from "@/components/ui/input.tsx"
 import {Button} from "@/components/ui/button.tsx"
 
 import {callApi} from "@/shared/functions/CallApi.ts";
+import {PropagateLoader} from "react-spinners";
 
 import {useAuthStore, type LoginResponseType} from "@/features/Login/store/useAuthStore.ts";
 import {useContainerStore} from "@/shared/store/useContainerStore.ts";
@@ -12,6 +13,7 @@ import {useUserInfo} from "@/shared/store/useUserInfo.ts";
 import { useNavigate } from "@tanstack/react-router";
 
 import { z } from "zod";
+import {useState} from "react";
 
 
 type LoginFormType = {
@@ -32,6 +34,10 @@ export default function LoginForm() {
     const login = useAuthStore((s) => s.login);
     const userInfo = useUserInfo(s => s.fetchData);
     const containers = useContainerStore(s => s.fetchContainers);
+
+    const [isLoading, setIsLoading] = useState(false)
+
+
     const form = useForm({
         defaultValues:{
             username: '',
@@ -39,8 +45,10 @@ export default function LoginForm() {
         } as LoginFormType,
 
         onSubmit: async ( {value}) => {
-                console.log(value)
-               // await doLogin(value, login, userInfo, containers, redirect )
+
+               setIsLoading(true)
+
+            setTimeout(async ()=>{
                 const request  = await callApi<LoginFormType, LoginResponseType>({
                     endpoint:"/Login",
                     method:"POST",
@@ -50,6 +58,7 @@ export default function LoginForm() {
                     haveApiResponse:true,
                 })
                 if (typeof request != "boolean" && request) {
+                    setIsLoading(false)
                     login(request.data.username, request.data.email ,request.data.id);
                     userInfo(
                         request.data.userInfo.firstName,
@@ -62,10 +71,12 @@ export default function LoginForm() {
                         to:"/dashboard"
                     })
                 }
+            }, 1000)
+
 
         },
     })
-
+    const root = document.getElementById("root") as HTMLElement;
     return (
         <div className={"mt-4"}>
 
@@ -157,8 +168,8 @@ export default function LoginForm() {
                 </form.Field>
 
 
-                <Button type={"submit"} className={"cursor-pointer mt-2"}>
-                    Log into your account
+                <Button disabled={isLoading} type={"submit"} className={` mt-2 place-items-center cursor-pointer`}>
+                    {isLoading ? <PropagateLoader cssOverride={{alignItems: "center"}} color={window.getComputedStyle(root).getPropertyValue("--primary-foreground")}/> : "Log into your account"}
                 </Button>
             </form>
 

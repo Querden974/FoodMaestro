@@ -18,6 +18,12 @@ type CallApiParams <T> =
     haveApiResponse:boolean
     }
 
+export type CallApiReturnType <T> =
+    {
+        status: "loading" | "success" | "error" | "idle"
+        data:T | null
+     }
+
 
 export async function callApi<T,U>({endpoint, method, data, okMessage, errorMessage, haveApiResponse} : CallApiParams<T>) {
 
