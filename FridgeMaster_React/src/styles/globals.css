@@ -102,6 +102,8 @@ html{
 }
 
 @theme inline {
+    --font-fredoka: 'Fredoka', serif;
+    --font-fredoka-one: 'Fredoka One', cursive;
     --color-background: var(--background);
     --color-foreground: var(--foreground);
     --color-card: var(--card);
@@ -163,13 +165,4 @@ html{
 
     }
 
-}
-
-@layer base {
-  * {
-    @apply border-border outline-ring/50;
-    }
-  body {
-    @apply bg-background text-foreground;
-    }
 }

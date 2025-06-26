@@ -77,7 +77,7 @@ const data = {
     },
     {
       title: "Shopping List",
-      url: "#",
+      url: "/dashboard/shopping-list",
       icon: List,
       isActive: false,
     },

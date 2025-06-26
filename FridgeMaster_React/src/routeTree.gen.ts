@@ -17,6 +17,7 @@ import { Route as AboutRouteImport } from './routes/about'
 import { Route as DashboardRouteRouteImport } from './routes/dashboard/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as DashboardIndexRouteImport } from './routes/dashboard/index'
+import { Route as DashboardShoppingListRouteImport } from './routes/dashboard/shopping-list'
 import { Route as DashboardContainerIdRouteImport } from './routes/dashboard/container/$id'
 
 const RegisterRoute = RegisterRouteImport.update({
@@ -49,6 +50,11 @@ const DashboardIndexRoute = DashboardIndexRouteImport.update({
   path: '/',
   getParentRoute: () => DashboardRouteRoute,
 } as any)
+const DashboardShoppingListRoute = DashboardShoppingListRouteImport.update({
+  id: '/shopping-list',
+  path: '/shopping-list',
+  getParentRoute: () => DashboardRouteRoute,
+} as any)
 const DashboardContainerIdRoute = DashboardContainerIdRouteImport.update({
   id: '/container/$id',
   path: '/container/$id',
@@ -61,6 +67,7 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
+  '/dashboard/shopping-list': typeof DashboardShoppingListRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/dashboard/container/$id': typeof DashboardContainerIdRoute
 }
@@ -69,6 +76,7 @@ export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
+  '/dashboard/shopping-list': typeof DashboardShoppingListRoute
   '/dashboard': typeof DashboardIndexRoute
   '/dashboard/container/$id': typeof DashboardContainerIdRoute
 }
@@ -79,6 +87,7 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
+  '/dashboard/shopping-list': typeof DashboardShoppingListRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/dashboard/container/$id': typeof DashboardContainerIdRoute
 }
@@ -90,6 +99,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/login'
     | '/register'
+    | '/dashboard/shopping-list'
     | '/dashboard/'
     | '/dashboard/container/$id'
   fileRoutesByTo: FileRoutesByTo
@@ -98,6 +108,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/login'
     | '/register'
+    | '/dashboard/shopping-list'
     | '/dashboard'
     | '/dashboard/container/$id'
   id:
@@ -107,6 +118,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/login'
     | '/register'
+    | '/dashboard/shopping-list'
     | '/dashboard/'
     | '/dashboard/container/$id'
   fileRoutesById: FileRoutesById
@@ -155,6 +167,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/register'
       preLoaderRoute: typeof RegisterRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/dashboard/shopping-list': {
+      id: '/dashboard/shopping-list'
+      path: '/shopping-list'
+      fullPath: '/dashboard/shopping-list'
+      preLoaderRoute: typeof DashboardShoppingListRouteImport
+      parentRoute: typeof DashboardRouteRoute
     }
     '/dashboard/': {
       id: '/dashboard/'
@@ -218,6 +237,15 @@ declare module './routes/register' {
     FileRoutesByPath['/register']['fullPath']
   >
 }
+declare module './routes/dashboard/shopping-list' {
+  const createFileRoute: CreateFileRoute<
+    '/dashboard/shopping-list',
+    FileRoutesByPath['/dashboard/shopping-list']['parentRoute'],
+    FileRoutesByPath['/dashboard/shopping-list']['id'],
+    FileRoutesByPath['/dashboard/shopping-list']['path'],
+    FileRoutesByPath['/dashboard/shopping-list']['fullPath']
+  >
+}
 declare module './routes/dashboard/index' {
   const createFileRoute: CreateFileRoute<
     '/dashboard/',
@@ -238,11 +266,13 @@ declare module './routes/dashboard/container/$id' {
 }
 
 interface DashboardRouteRouteChildren {
+  DashboardShoppingListRoute: typeof DashboardShoppingListRoute
   DashboardIndexRoute: typeof DashboardIndexRoute
   DashboardContainerIdRoute: typeof DashboardContainerIdRoute
 }
 
 const DashboardRouteRouteChildren: DashboardRouteRouteChildren = {
+  DashboardShoppingListRoute: DashboardShoppingListRoute,
   DashboardIndexRoute: DashboardIndexRoute,
   DashboardContainerIdRoute: DashboardContainerIdRoute,
 }

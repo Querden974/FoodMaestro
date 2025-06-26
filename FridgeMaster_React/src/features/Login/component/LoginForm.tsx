@@ -57,8 +57,9 @@ export default function LoginForm() {
                     errorMessage:"Invalid credentials",
                     haveApiResponse:true,
                 })
+                setIsLoading(false)
                 if (typeof request != "boolean" && request) {
-                    setIsLoading(false)
+
                     login(request.data.username, request.data.email ,request.data.id);
                     userInfo(
                         request.data.userInfo.firstName,
