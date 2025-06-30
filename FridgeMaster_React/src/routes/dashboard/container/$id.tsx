@@ -1,7 +1,7 @@
 import {useLoaderData} from "@tanstack/react-router";
 import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card.tsx";
 import {ContainerBox} from "@/components/ContainerBox.tsx";
-import {useTitlePageStore} from "@/shared/store/useTitlePageStore.ts";
+import {setTitleRoute} from "@/shared/functions/setRouteTitle.ts"
 import { useContainerStore, type Container} from "@/shared/store/useContainerStore.ts";
 import {useAuthStore} from "@/features/Login/store/useAuthStore.ts";
 import {Button} from "@/components/ui/button.tsx";
@@ -48,10 +48,10 @@ function ContainerShow() {
         }
     }, []);
 
-    const setTitle = useTitlePageStore((s) => s.setTitle);
+    setTitleRoute(containerName.trim());
     useEffect(() => {
-        if(containerInfo) setTitle(containerName.trim())
-        return () => setTitle("")
+        if(containerInfo) setTitleRoute(containerName.trim());
+        return () => setTitleRoute("")
     }, [containerName]);
 
     const handleSubmit = async ()=> {

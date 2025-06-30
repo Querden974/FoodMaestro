@@ -3,24 +3,21 @@ import { Pencil, Plus} from "lucide-react"
 
 import {Label} from "@/components/ui/label.tsx";
 
-import {useRef} from "react";
+import { useRef} from "react";
 import {Button} from "@/components/ui/button.tsx";
 
 import ShoppingListMapping from "@/routes/dashboard/shopping-list/-components/ShoppingListMapping.tsx";
 
 import {useShoppingStore} from "@/shared/store/useShoppingStore.ts";
-
+import {setTitleRoute} from "@/shared/functions/setRouteTitle.ts";
 
 export const Route = createFileRoute({
   component: RouteComponent,
-    loader: async () => {
-        const title = "Shopping List";
-        return { title};
-    }
 })
 
 function RouteComponent() {
-    // const [newItem, setNewItem] = useState<string>("");
+    setTitleRoute("Shopping List");
+
     const mainInputRef = useRef<HTMLInputElement | null>(null);
     const {addItem} = useShoppingStore.getState();
 
@@ -34,6 +31,9 @@ function RouteComponent() {
         }
 
     }
+
+
+
 
 
   return (
