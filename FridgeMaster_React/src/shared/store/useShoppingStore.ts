@@ -13,6 +13,8 @@ type ShoppingStoreType = {
     addItem: (newItem: string) => void,
     removeItem: (id: number) => void,
     toggleChecked: (id: number) => void,
+    editItem: (id: number, newName: string) => void;
+
 };
 
 
@@ -41,7 +43,15 @@ export const useShoppingStore = create<ShoppingStoreType>()(
                         ),
                     };
                 });
-            }
+            },
+
+            editItem: (id: number, newName: string) => {
+                set((state) => {
+                    return { items: state.items.map((i) => i.id === id ? {...i, name:newName}: i )}
+                })
+            },
+
+
         }),
         {
             name: 'user-shopping-list-storage',

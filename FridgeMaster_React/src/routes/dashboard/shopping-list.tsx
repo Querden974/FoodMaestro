@@ -23,11 +23,9 @@ type ShoppingItemType = {
 
 function RouteComponent() {
     const [newItem, setNewItem] = useState<string>("");
-    const [items, setItems] = useState<ShoppingItemType[]>([]);
-
     const [selectItemEditing, setSelectItemEditing] = useState<ShoppingItemType | null>(null);
 
-    const {addItem, removeItem, toggleChecked} = useShoppingStore.getState();
+    const {addItem, removeItem, toggleChecked, editItem} = useShoppingStore.getState();
     const shoppingItems = useShoppingStore((state) => state.items);
 
 
@@ -36,9 +34,6 @@ function RouteComponent() {
         setNewItem("");
     }
 
-    const handleCheckbox = (id:number) => {
-        toggleChecked(id);
-    }
 
   return (
       <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
@@ -70,7 +65,7 @@ function RouteComponent() {
                           {shoppingItems.map((item) => (
                               <div key={item.id} className={"flex items-center gap-2 h-6"}>
                                   <Checkbox  checked={item.checked}
-                                             onCheckedChange={() => handleCheckbox(item.id)}/>
+                                             onCheckedChange={() => toggleChecked(item.id)}/>
                                   {selectItemEditing?.id !== item.id
                                       ?
                                       <>
@@ -95,7 +90,7 @@ function RouteComponent() {
                                           <Input value={item.name}
                                                  className={"h-min"}
                                                  onKeyDown={(e) => e.key === "Enter" && setSelectItemEditing(null)}
-                                                 onChange={(e) => setItems(prev => prev.map((i) => i.id === item.id ? {...i, name:e.target.value}: i ))}
+                                                 onChange={(e) => editItem(item.id, e.target.value)}
 
 
                                           />
