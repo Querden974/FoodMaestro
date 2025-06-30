@@ -1,13 +1,27 @@
-import { Outlet} from '@tanstack/react-router';
+import { Outlet, useRouter} from '@tanstack/react-router';
 import {AppSidebar} from "@/components/app-sidebar.tsx";
 import {SidebarInset, SidebarProvider, SidebarTrigger} from "@/components/ui/sidebar.tsx";
 import {Separator} from "@/components/ui/separator.tsx";
-import {Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList} from "@/components/ui/breadcrumb.tsx";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbSeparator
+} from "@/components/ui/breadcrumb.tsx";
+import {useTitlePageStore} from "@/shared/store/useTitlePageStore.ts";
+
 export const Route = createFileRoute({
   component: RouteComponent,
 })
 
 function RouteComponent() {
+  const route = useRouter();
+  const currentRoute = route.latestLocation.href;
+  const routeTitle = useTitlePageStore((state) => state.title);
+  console.log(routeTitle)
+
+
   return (
       <SidebarProvider>
     <AppSidebar />
@@ -27,6 +41,20 @@ function RouteComponent() {
                   Food Maestro
                 </BreadcrumbLink>
               </BreadcrumbItem>
+
+              {routeTitle && currentRoute  !== "/dashboard" &&
+              <>
+                <BreadcrumbSeparator />
+                <BreadcrumbItem className="hidden md:block">
+
+                  <BreadcrumbLink href={currentRoute}>
+                    {routeTitle}
+                  </BreadcrumbLink>
+                </BreadcrumbItem>
+              </>
+              }
+
+
 
             </BreadcrumbList>
           </Breadcrumb>

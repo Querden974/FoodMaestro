@@ -10,8 +10,13 @@ import ShoppingListMapping from "@/routes/dashboard/shopping-list/-components/Sh
 
 import {useShoppingStore} from "@/shared/store/useShoppingStore.ts";
 
+
 export const Route = createFileRoute({
   component: RouteComponent,
+    loader: async () => {
+        const title = "Shopping List";
+        return { title};
+    }
 })
 
 function RouteComponent() {

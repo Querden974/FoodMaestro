@@ -1,6 +1,7 @@
 import {useLoaderData} from "@tanstack/react-router";
 import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card.tsx";
 import {ContainerBox} from "@/components/ContainerBox.tsx";
+import {useTitlePageStore} from "@/shared/store/useTitlePageStore.ts";
 import { useContainerStore, type Container} from "@/shared/store/useContainerStore.ts";
 import {useAuthStore} from "@/features/Login/store/useAuthStore.ts";
 import {Button} from "@/components/ui/button.tsx";
@@ -13,17 +14,11 @@ import {callApi} from "@/shared/functions/CallApi.ts";
 import {FetchUserContainer} from "@/routes/dashboard/container/-services/FetchUserContainer.ts";
 import AddFoodDialog from "@/routes/dashboard/container/-components/AddFoodDialog.tsx";
 
-export const Route = createFileRoute({
-    component: ContainerShow,
-    loader: async ({ params }) => {
-        const { id } = params;
-        return {id};
-    }
-
-
-})
+///TODO: Change useState to useRef to avoid unnecessary re-renders.
 
 function ContainerShow() {
+
+
     const { id } = useLoaderData({from: "/dashboard/container/$id"});
     const user = useAuthStore((state) => state.username);
     const userId = useAuthStore((s) => s.id)
@@ -45,7 +40,19 @@ function ContainerShow() {
             setContainerName(containerInfo.containerName.trim())
             setOldName(containerInfo.containerName.trim())
         }
+        return () => {
+            if(containerInfo) {
+                setContainerName("")
+                setOldName("")
+            }
+        }
     }, []);
+
+    const setTitle = useTitlePageStore((s) => s.setTitle);
+    useEffect(() => {
+        if(containerInfo) setTitle(containerName.trim())
+        return () => setTitle("")
+    }, [containerName]);
 
     const handleSubmit = async ()=> {
 
@@ -178,3 +185,15 @@ function ContainerShow() {
         </div>
     )
 }
+
+export const Route = createFileRoute({
+    component: ContainerShow,
+    loader: async ({ params }) => {
+        const { id } = params;
+
+
+        return {id};
+    }
+
+
+})
