@@ -1,4 +1,5 @@
-﻿using System.Text.Json;
+﻿using System.Text.Encodings.Web;
+using System.Text.Json;
 using AutoMapper;
 using FridgeMaster_API.Data;
 using FridgeMaster_API.Model;
@@ -23,7 +24,7 @@ namespace FridgeMaster_API.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet("userId")]
+        [HttpGet]
         public async Task<ActionResult<GETShoppingListRequest>> GetShoppingList(int userId)
         {
             var query = await _db.ShoppingLists.FirstAsync(s => s.UserId == userId);
@@ -38,7 +39,7 @@ namespace FridgeMaster_API.Controllers
             return Ok(parseList);
         }
 
-
+        [Route("create")]
         [HttpPost]
         public async Task<ActionResult<ShoppingList>> CreateShoppingList([FromBody] ShoppingList shoppingList)
         {
@@ -57,7 +58,7 @@ namespace FridgeMaster_API.Controllers
             return Ok("Shopping list created");
         }
 
-        [HttpPut]
+        [HttpPost]
         public async Task<ActionResult<ShoppingList>> AddItemInShoppingList([FromBody] ShoppingListRequest shoppingListItem)
         {
             if (shoppingListItem == null || shoppingListItem.UserId <= 0)
@@ -77,7 +78,6 @@ namespace FridgeMaster_API.Controllers
                 ? new List<ShoppingListItemsType> { shoppingListItem.NewItem } 
                 : new List<ShoppingListItemsType>();
 
-            // Fix for CS1503: Wrap the single item in a list to match the expected type
             existingItems?.AddRange(newItem);
 
             userList.Items = JsonSerializer.Serialize(existingItems);

@@ -1,8 +1,10 @@
-﻿using System.Text.Json;
+﻿using System.Text.Encodings.Web;
+using System.Text.Json;
 using AutoMapper;
 using FridgeMaster_API.Data;
 using FridgeMaster_API.Model;
 using FridgeMaster_API.Request;
+using FridgeMaster_API.Types;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -36,7 +38,7 @@ namespace FridgeMaster_API.Controllers
             
             var userInDb = _db.Users
                 .Include(u => u.UserInfo)
-                
+                .Include(u => u.ShoppingList)
                 .FirstOrDefault(u => u.username == body.username);
             if (userInDb == null)
             {
@@ -51,7 +53,9 @@ namespace FridgeMaster_API.Controllers
                 var result = _mapper.Map<UserRequest>(userInDb);
                 var isContainerNotEmpty = _db.Containers.Any(c => c.UserId == userInDb.id);
 
-                
+                var shoppingList = await _db.ShoppingLists.FirstAsync(sl => sl.UserId == userInDb.id);
+                var itemsList = JsonSerializer.Deserialize<IEnumerable<ShoppingListItemsType>>(shoppingList.Items);
+
                 var containers = await _db.Containers.Where(c => c.UserId == userInDb.id)
                     .Include(cf => cf.ContainerFood)
                     .ThenInclude(f => f.FoodFactItem)
@@ -61,7 +65,8 @@ namespace FridgeMaster_API.Controllers
                 {
                     message = "Loggin Successful",
                     data = result,
-                    container = containers
+                    container = containers,
+                    shoppingList = itemsList
                 });
             }
             else

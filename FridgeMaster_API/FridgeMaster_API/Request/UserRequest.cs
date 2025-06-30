@@ -1,4 +1,8 @@
-﻿namespace FridgeMaster_API.Request
+﻿using System.Text.Json;
+using FridgeMaster_API.Model;
+using FridgeMaster_API.Types;
+
+namespace FridgeMaster_API.Request
 {
     public class UserRequest
     {
@@ -9,6 +13,5 @@
         public DateTime? CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime? UpdatedAt { get; set; } = DateTime.UtcNow;
 
-        
     }
 }
