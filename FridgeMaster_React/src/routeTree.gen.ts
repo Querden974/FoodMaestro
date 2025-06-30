@@ -17,7 +17,7 @@ import { Route as AboutRouteImport } from './routes/about'
 import { Route as DashboardRouteRouteImport } from './routes/dashboard/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as DashboardIndexRouteImport } from './routes/dashboard/index'
-import { Route as DashboardShoppingListRouteImport } from './routes/dashboard/shopping-list'
+import { Route as DashboardShoppingListIndexRouteImport } from './routes/dashboard/shopping-list/index'
 import { Route as DashboardContainerIdRouteImport } from './routes/dashboard/container/$id'
 
 const RegisterRoute = RegisterRouteImport.update({
@@ -50,11 +50,12 @@ const DashboardIndexRoute = DashboardIndexRouteImport.update({
   path: '/',
   getParentRoute: () => DashboardRouteRoute,
 } as any)
-const DashboardShoppingListRoute = DashboardShoppingListRouteImport.update({
-  id: '/shopping-list',
-  path: '/shopping-list',
-  getParentRoute: () => DashboardRouteRoute,
-} as any)
+const DashboardShoppingListIndexRoute =
+  DashboardShoppingListIndexRouteImport.update({
+    id: '/shopping-list/',
+    path: '/shopping-list/',
+    getParentRoute: () => DashboardRouteRoute,
+  } as any)
 const DashboardContainerIdRoute = DashboardContainerIdRouteImport.update({
   id: '/container/$id',
   path: '/container/$id',
@@ -67,18 +68,18 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
-  '/dashboard/shopping-list': typeof DashboardShoppingListRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/dashboard/container/$id': typeof DashboardContainerIdRoute
+  '/dashboard/shopping-list': typeof DashboardShoppingListIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
-  '/dashboard/shopping-list': typeof DashboardShoppingListRoute
   '/dashboard': typeof DashboardIndexRoute
   '/dashboard/container/$id': typeof DashboardContainerIdRoute
+  '/dashboard/shopping-list': typeof DashboardShoppingListIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -87,9 +88,9 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
-  '/dashboard/shopping-list': typeof DashboardShoppingListRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/dashboard/container/$id': typeof DashboardContainerIdRoute
+  '/dashboard/shopping-list/': typeof DashboardShoppingListIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -99,18 +100,18 @@ export interface FileRouteTypes {
     | '/about'
     | '/login'
     | '/register'
-    | '/dashboard/shopping-list'
     | '/dashboard/'
     | '/dashboard/container/$id'
+    | '/dashboard/shopping-list'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/about'
     | '/login'
     | '/register'
-    | '/dashboard/shopping-list'
     | '/dashboard'
     | '/dashboard/container/$id'
+    | '/dashboard/shopping-list'
   id:
     | '__root__'
     | '/'
@@ -118,9 +119,9 @@ export interface FileRouteTypes {
     | '/about'
     | '/login'
     | '/register'
-    | '/dashboard/shopping-list'
     | '/dashboard/'
     | '/dashboard/container/$id'
+    | '/dashboard/shopping-list/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -168,13 +169,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RegisterRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/dashboard/shopping-list': {
-      id: '/dashboard/shopping-list'
-      path: '/shopping-list'
-      fullPath: '/dashboard/shopping-list'
-      preLoaderRoute: typeof DashboardShoppingListRouteImport
-      parentRoute: typeof DashboardRouteRoute
-    }
     '/dashboard/': {
       id: '/dashboard/'
       path: '/'
@@ -187,6 +181,13 @@ declare module '@tanstack/react-router' {
       path: '/container/$id'
       fullPath: '/dashboard/container/$id'
       preLoaderRoute: typeof DashboardContainerIdRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
+    '/dashboard/shopping-list/': {
+      id: '/dashboard/shopping-list/'
+      path: '/shopping-list'
+      fullPath: '/dashboard/shopping-list'
+      preLoaderRoute: typeof DashboardShoppingListIndexRouteImport
       parentRoute: typeof DashboardRouteRoute
     }
   }
@@ -237,15 +238,6 @@ declare module './routes/register' {
     FileRoutesByPath['/register']['fullPath']
   >
 }
-declare module './routes/dashboard/shopping-list' {
-  const createFileRoute: CreateFileRoute<
-    '/dashboard/shopping-list',
-    FileRoutesByPath['/dashboard/shopping-list']['parentRoute'],
-    FileRoutesByPath['/dashboard/shopping-list']['id'],
-    FileRoutesByPath['/dashboard/shopping-list']['path'],
-    FileRoutesByPath['/dashboard/shopping-list']['fullPath']
-  >
-}
 declare module './routes/dashboard/index' {
   const createFileRoute: CreateFileRoute<
     '/dashboard/',
@@ -264,17 +256,26 @@ declare module './routes/dashboard/container/$id' {
     FileRoutesByPath['/dashboard/container/$id']['fullPath']
   >
 }
+declare module './routes/dashboard/shopping-list/index' {
+  const createFileRoute: CreateFileRoute<
+    '/dashboard/shopping-list/',
+    FileRoutesByPath['/dashboard/shopping-list/']['parentRoute'],
+    FileRoutesByPath['/dashboard/shopping-list/']['id'],
+    FileRoutesByPath['/dashboard/shopping-list/']['path'],
+    FileRoutesByPath['/dashboard/shopping-list/']['fullPath']
+  >
+}
 
 interface DashboardRouteRouteChildren {
-  DashboardShoppingListRoute: typeof DashboardShoppingListRoute
   DashboardIndexRoute: typeof DashboardIndexRoute
   DashboardContainerIdRoute: typeof DashboardContainerIdRoute
+  DashboardShoppingListIndexRoute: typeof DashboardShoppingListIndexRoute
 }
 
 const DashboardRouteRouteChildren: DashboardRouteRouteChildren = {
-  DashboardShoppingListRoute: DashboardShoppingListRoute,
   DashboardIndexRoute: DashboardIndexRoute,
   DashboardContainerIdRoute: DashboardContainerIdRoute,
+  DashboardShoppingListIndexRoute: DashboardShoppingListIndexRoute,
 }
 
 const DashboardRouteRouteWithChildren = DashboardRouteRoute._addFileChildren(
