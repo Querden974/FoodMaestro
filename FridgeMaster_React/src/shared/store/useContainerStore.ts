@@ -79,8 +79,8 @@ export const useContainerStore = create<ContainerType>()(
                     ? {...container, containerName:editedData.containerName.trim()}
                     : container
                 )
-                console.log("old: ", containerStore.containers)
-                console.log("new: ", newContainers)
+                // console.log("old: ", containerStore.containers)
+                // console.log("new: ", newContainers)
                 set({
                     containers:newContainers
                 })
