@@ -8,6 +8,8 @@ import {Button} from "@/components/ui/button.tsx";
 import {Checkbox} from "@/components/ui/checkbox.tsx";
 import {Input} from "@/components/ui/input.tsx";
 
+import {useShoppingStore} from "@/shared/store/useShoppingStore.ts";
+
 export const Route = createFileRoute({
   component: RouteComponent,
 })
@@ -25,22 +27,17 @@ function RouteComponent() {
 
     const [selectItemEditing, setSelectItemEditing] = useState<ShoppingItemType | null>(null);
 
-    function addItem() {
-        if (newItem.trim()) {
-            const newItemObject = {
-                id: items.length + 1,
-                name: newItem,
-                checked: false,
-                }
-            ;
-            setItems([...items, newItemObject]);
-            setNewItem("");
-        }
+    const {addItem, removeItem, toggleChecked} = useShoppingStore.getState();
+    const shoppingItems = useShoppingStore((state) => state.items);
+
+
+    const handleAdd = () => {
+        addItem(newItem)
+        setNewItem("");
     }
-    function removeItem(id: number){
-        setItems(prev =>
-            prev.filter(item => item.id !== id)
-        )
+
+    const handleCheckbox = (id:number) => {
+        toggleChecked(id);
     }
 
   return (
@@ -58,25 +55,26 @@ function RouteComponent() {
                               <Pencil className={"size-6"} />
                               <input className={"h-full w-full focus:outline-none"} type={"text"} value={newItem}
                                      onChange={(e) => setNewItem(e.target.value)}
-                                     onKeyDown={(e) => e.key === "Enter" && addItem()}
+                                     onKeyDown={(e) => e.key === "Enter" && handleAdd()}
                                      placeholder={"Add item to shopping list"} />
 
                           </Label>
                           <Button className={"rounded-full aspect-square h-full cursor-pointer"}
-                                  onClick={() => addItem()}
+                                  onClick={() => handleAdd()}
                           >
                               <Plus />
                           </Button>
                       </div>
 
                       <div className={" flex flex-col gap-2 w-1/6"}>
-                          {items.map((item, index) => (
-                              <div key={index} className={"flex items-center gap-2 h-6"}>
-                                  <Checkbox  checked={item.checked} onCheckedChange={(checked) => setItems(prev => prev.map((i) => i.id === item.id ? {...i, checked:checked===true}: i ))}/>
+                          {shoppingItems.map((item) => (
+                              <div key={item.id} className={"flex items-center gap-2 h-6"}>
+                                  <Checkbox  checked={item.checked}
+                                             onCheckedChange={() => handleCheckbox(item.id)}/>
                                   {selectItemEditing?.id !== item.id
                                       ?
                                       <>
-                                          <Label key={index}
+                                          <Label key={item.id}
                                                  onDoubleClick={() => {
                                                      setSelectItemEditing(item)
                                                  }}
