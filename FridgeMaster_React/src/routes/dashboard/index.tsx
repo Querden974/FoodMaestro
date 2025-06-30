@@ -8,6 +8,7 @@ import {useContainerStore} from "@/shared/store/useContainerStore.ts";
 import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/components/ui/card.tsx";
 import {ContainerBoxMini} from "@/components/ContainerBox.tsx";
 import {Calendar} from "@/components/ui/calendar.tsx";
+import {Link} from "@tanstack/react-router";
 
 export default function DefaultDashboard() {
   const { containers } = useContainerStore();
@@ -18,7 +19,11 @@ export default function DefaultDashboard() {
           {containers && containers.map((container, index) => (
               <Card key={index} className={"bg-muted/75"}>
                 <CardHeader>
-                  <CardTitle>{container.containerName}</CardTitle>
+                  <CardTitle>
+                      <Link to={`/dashboard/container/$id`} params={{id:container.id.toString()}}>
+                          {container.containerName}
+                      </Link>
+                  </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <ContainerBoxMini items={container.containerFood}/>

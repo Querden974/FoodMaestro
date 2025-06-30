@@ -122,7 +122,7 @@ export function ContainerBox({items, setEditing, setEditedItem, editedItem, isEd
                             </TableCell>
                             <TableCell >
                                 <div className="flex gap-2 w-fit mx-auto">
-                                    <Button className={"cursor-pointer"}>
+                                    <Button variant={"outline"} className={"cursor-pointer"}>
                                         <Pencil/>
                                     </Button>
                                     <Button className={"cursor-pointer"} variant={'destructive'} onClick={() => removeContainerFood(item)}>
@@ -174,7 +174,7 @@ export function ContainerBoxMini({items}:{items:ContainerFoodType[]}) {
                     <TableHead className={"w-1/10"}>Brand</TableHead>
                     <TableHead className={"w-1/10"}>Quantity</TableHead>
                     <TableHead className={"w-1/10"}>Unit</TableHead>
-                    <TableHead className="text-center w-2/10">Expire</TableHead>
+
                 </TableRow>
             </TableHeader>
             <TableBody>
@@ -196,11 +196,7 @@ export function ContainerBoxMini({items}:{items:ContainerFoodType[]}) {
 
 
                         </TableCell>
-                        <TableCell className="text-center">
-                            <Label>{item.expirationDate ? new Date(item.expirationDate).toLocaleDateString() : "N/A"}</Label>
 
-
-                        </TableCell>
                     </TableRow>
                 ))}
             </TableBody>
